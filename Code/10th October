@@ -10,13 +10,13 @@ library(spatstat)
 
 bei
 
-# plotting the data
+# plotting the data -> è un plot con cerchi neri e bianchi
 plot(bei)
 
-# changing dimension - cex
+# changing dimension - cex -> puntini di 0.2 piccoli
 plot(bei, cex=.2)
 
-# changing the symbol - pch
+# changing the symbol - pch -> simbolo diverso
 plot(bei, cex=.2, pch=19)
 
 # additional datasets
@@ -25,7 +25,7 @@ plot(bei.extra)
 
 # let's use only part of the dataset: elev
 plot(bei.extra$elev)
-elevation <- bei.extra$elev
+elevation <- bei.extra$elev -> così assegno bei.extra ad elevation
 plot(elevation)
 
 # second method to select elements
@@ -35,10 +35,10 @@ plot(elevation2)
 # passing from points to a countinuous surface
 densitymap <- density(bei)
 plot(densitymap)
-points(bei, cex=.2)
+points(bei, cex=.2) # ha aggiunto i puntini
 
 cl <- colorRampPalette(c("black", "red", "orange", "yellow"))(100)
-plot(densitymap, col=cl)
+plot(densitymap, col=cl) #prima ha assegnato a cl quel pattern di colori e poi l'ha visualizzato
 
 cl <- colorRampPalette(c("black", "red", "orange", "yellow"))(4)
 plot(densitymap, col=cl)
@@ -49,14 +49,15 @@ plot(densitymap, col=clnew)
 plot(bei.extra)
 
 elev <- bei.extra[[1]] # bei.extra$elev
-plot(elev)
+plot(elev)  # ha ripreso elev
 
 # multiframe
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) #crea una tabella con 1 riga e 2 colonne
 plot(densitymap)
 plot(elev)
 
-par(mfrow=c(2,1))
+par(mfrow=c(2,1)) #qua il contrario di prima, prima stabilisci
+le regole in cui ordinarli, e poi in base a chi scrivi prima si sistemano
 plot(densitymap)
 plot(elev)
 
