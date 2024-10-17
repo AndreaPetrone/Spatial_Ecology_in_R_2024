@@ -3,5 +3,24 @@ install.packages("sdm") #species distribution modelling
 #look for teacher's papers in "paper" on his github
 # in each pixel you have a probability to find the species --> species distribution modelling
 install.packages("terra")
-
-
+17 OCTOBER 2024 - POPULATION DISTRIBUTION IN R - Why populations disperse over time in a landscape in a certain matter
+# how to make a subset of a data, to select only some points
+# we installed sdm and terra; 
+file <- system.file("external/species.shp", package="sdm")
+# in sdm folder there is another file called "external"  and in it there are some data we're gonna use today --> using system.file it finds the name of the file
+system.file("external") #system file selects a specific file from another
+# species.shp is related to data for species, shp means "shapefile" that is a type of file originally from a company. species is inside external
+file <- system.file("external/species.shp", package = "sdm") #species inside external with "/" and we specify the package "sdm"
+file #to see what's inside 
+# gather type is ruster that is image, vector is made of points (coordinates), let's use the data with a function to traslate shp to type of file that R can use
+# spatvector is the one R can use, the function is called vect 
+rana <- vect(file) # file is the object we named before instead of writing system.file etc...
+# the information we find: first says it is a spatvector, second: type of file (points), third: extent, then source, coordinates: wgs84, utm zone 30N, EPSG (code used for every single coordinate system), names: for each point there's a data recorded, occurance or not of a certain species, so if the species is present (1) or not (0) we write the numbers in each point 
+rana$Occurrence #now let's plot this data
+plot(data) #in this file some points represent the presence of the species (occurance = 1) and other the absence (occurance = 0), now we select the data where there is the species (occurence = 1)
+# select all the points from rana where occurence = 1, in sequel equal is written with two ==, in sequel all finishes with ";".
+pres <- rana[rana$Occurrence==1] #press is the name, from rana we select occurence ==1
+pres 
+pres$Occurrence # we see only 1 
+# now we want to see rana and pres in a multiframe (par is just for the multiframe)
+# sequel is not a function, is a language where we select only the data in which the occurrence ==1
