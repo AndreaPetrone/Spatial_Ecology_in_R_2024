@@ -3,7 +3,7 @@ install.packages("sdm") #species distribution modelling
 #look for teacher's papers in "paper" on his github
 # in each pixel you have a probability to find the species --> species distribution modelling
 install.packages("terra")
-17 OCTOBER 2024 - POPULATION DISTRIBUTION IN R - Why populations disperse over time in a landscape in a certain matter
+17 OCTOBER 2024 - POPULATION DISTRIBUTION IN R - Why populations disperse over time in a landscape in a certain way
 # how to make a subset of a data, to select only some points
 # we installed sdm and terra; 
 file <- system.file("external/species.shp", package="sdm")
@@ -23,4 +23,42 @@ pres <- rana[rana$Occurrence==1] #press is the name, from rana we select occuren
 pres 
 pres$Occurrence # we see only 1 
 # now we want to see rana and pres in a multiframe (par is just for the multiframe)
+par(mfrow=c(1,2))
+plot(rana)
+plot(pres)
 # sequel is not a function, is a language where we select only the data in which the occurrence ==1
+# exercise: select data from rana with only absences 
+abse <- rana[rana$Occurrence==0]
+abse
+abse$Occurrence #the datas with absences it's not said that the animal is not there, maybe the observer did not see it (obersver bias)
+# we use dev.off to destroy the multiframe we created before and then we write plot(abse)
+plot abse
+# exercise: plot in a multiframe presences beside absences 
+par(mfrow=c(1,2))
+plot(pres)
+plot(abse)
+# exercise: plot in a multiframe presences on top of absences
+par(mfrow=c(2,1))
+plot(pres)
+plot(abse)
+# now let's plot all together; exercise: plot the presences in blue together with absences in red
+plot(pres, col="blue")
+points(abse, col="red")
+# so we need to use points or it will be rewrited, we can modify the dimension of character 
+points(pres, col="blue", pch=19, cex=2) 
+points(abse, col="red", pch=19, cex=2)
+# covariates are datas in ruster form to understand ecological parameters, why the species is distributed in a certain way 
+elev <- file <- system.file("external/elevation.asc", package = "sdm") #we use .asc because it refers to rast (NOT RUSTER, i miswrote) 
+elev
+# now we want to see the map of elevation
+elevmap <- rast (elev)
+elevmap
+plot(elevmap)
+#exercise: change the colors of the elevation map by the colorRampPalette function
+Cl <- colorRampPalette(c(col="olivedrab", col="olivedrab1", col="orange"))
+plot(elevmap, col = cl) #so first we assign to Cl the colorRampPalette, the group of colors we want to use, then we put everything together in the plot function
+# exercise: plot the presences together with elevation map
+plot(elevmap, col = cl)
+points(pres, pch=19)
+# no need for parmf etc because we put points on a plot made of a map (rast file), i punti sopra la mappa, quindi non separati ma uno sopra l'altro
+
