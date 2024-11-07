@@ -39,3 +39,5 @@ overlapPlot(tigertime, macaquetime) # we see the 2 graphs overlapping to see whe
 nomacaque <- kerinci[kerinci$Sps!="macaque",]
 summary(nomacaque) # vedi che manca la riga dei macachi 
 
+# REMOTE SENSING: a tool for taking pictures 
+ 
