@@ -1,8 +1,0 @@
-# reflectance: amount of light based on incident light. the radiation we see is narrow, from blue to red, the visible, there are additional lenghts we can use like infra-red or UV. different animals see different lengths, humans see from blue to red. we take an instrument called APEX in which there are several sensors inside, each sensors see the landscape in different wave-lenght, you mount the instruments on top of drones and satellites and each sensor record the landscape in different parts. One see only in narrow red part of the spectrum, another in yellow part of spectrum etc. we will have sensors specific for each length and measure how much reflectance for each lenght. We can mount all the information to create an image made by different layers each one representing a lenght. Let's use them.
-# Code for visualizing remote sensing data
-install.packages("devtools") 
-install.packages("terra")
-# installing the imageRy package
-install_github("ducciorocchini/imageRy")
-library(imageRy)
-# installa rtools, cercalo su google e installalo 
