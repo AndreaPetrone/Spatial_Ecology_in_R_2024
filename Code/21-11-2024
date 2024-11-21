@@ -1,0 +1,18 @@
+> library(terra)
+> terra 1.7.83
+> library(imageRy)
+> im.list()
+# recall b2, b3, b4, b8
+> b2 <- im.import("sentinel.dolomites.b2.tif")
+> b3 <- im.import("sentinel.dolomites.b3.tif")
+> b4 <- im.import("sentinel.dolomites.b4.tif")
+> b8 <- im.import("sentinel.dolomites.b8.tif")
+> sentstack <- c(b2,b3,b4,b8)
+> plot(sentstack)
+why we want to stack? vegetation is now represented by infrared beause vegetation reflects a lot in NIR. it's common to put NIR on top of red band of RGB
+> im.plotRGB(sentstack, r=3, g=2, b=1) # RGB has 3 components but we have 4 bans. facciamo scorrere i nueri we get false colorus image so to add addittional information that our eyes cannot see 
+> im.plotRGB(sentstack, r=3, g=3, b=2)
+> im.plotRGB(sentstack, r=3, g=4, b=2) # let's try to put NIR on top of green band obtaining  another false colour image 
+#a NIR on top of blue band
+> im.plotRGB(sentstack, r=3, g=2, b=4)
+
