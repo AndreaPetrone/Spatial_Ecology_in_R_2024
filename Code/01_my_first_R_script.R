@@ -18,6 +18,7 @@ cato + maria
 cato^maria
 
 # arrays: all vectors are a series of data
+
 andrea <- c(10, 15, 20, 50, 70) # we need to concatenate them with a function, an operation, the function is "c"
 
 sofia <- c(100, 200, 300, 400, 500)
