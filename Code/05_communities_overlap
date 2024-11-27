@@ -1,41 +1,69 @@
+#Code to estimate the temporal overlap between species 
+# relation among species in time
+
 # package "overlap" to face the temporal dimension in communities: how much species are connected to each in a temporal dimension, so what is the time in which species are connected to each other.
+
 install.packages("overlap")
 library(overlap)
+
 # we care now about the activities of animals 
 # code to estimate the temporal overlap between species 
+
 ? overlap # to open file about information (not important)
 data (kerinci)
+
 # excercise: show the first 6 rows of kerinci
+
 head (kerinci) # to see the first 6 rows of the dataset; zone = zone of the area / species / time in which species has been seen
+
 # to have information about each colon type summary
+
 summary (kerinci)
+
 # convert the time in hour of the day, the number we see is a range from 0 to 1.
 # let's create a new field that is the time in radiance, we're moving from time in a circle to a straight line (l'orario a cerchio di un orologio ad una riga)
+
 kerinci$Timecirc <- kerinci$Time * 2 * pi # dollaro per assegnare, asterico come moltiplicare, pi come pi-greco. kerinci$Timecirc è il nome che gli abbiamo dato. mettere il dollaro nel nome era necessario per creare la colonna nel dataset kerinci, altrimenti era come creare un oggetto separato dal dataset.
+
 # se scrivi "names" ottieni i nomi delle colonne
 # now we want to set only the tiger data with symbol "==" to select only tiger path
-tiger <- kerinci[kerinci$Sps=="tiger",] #parentesi quadre per fare la selezione, the "," to close the query, ci vuole la virgola finale quando selezioni se no dà errore.
+
+# parentesi quadre per fare la selezione, the "," to close the query, ci vuole la virgola finale quando selezioni se no dà errore.
+
+tiger <- kerinci[kerinci$Sps=="tiger",] 
 head (tiger) # solo prime sei righe 
+
 # now we do a density plot together, obtained from the frequencies of the data we have.
 # for the density plot we relate the time to the tigers 
 # first we set time for tiger, it is in the coloun Timecirc
+
 tigertime <- tiger$Timecirc # it takes the time only of the tigers #l'ha estratto e gli ha dato il nome tigertime
 densityPlot(tigertime) #remember the capital letter P 
+
 # let's do the same for another species and then overlap 
 # macaque
+
 # exercise: select the data for the macaque in the kerinci set and assign them to a new object 
+
 macaque <- kerinci[kerinci$Sps=="macaque",]
 head(macaque)
+
 # exercise: select the time for the macaque data and make a density plot 
+
 macaquetime <- macaque$Timecirc
 densityPlot(macaquetime)
+
 # now we can overlap the 2 graphs to see how much they're temporarly overlapped
 # function overlap
-overlapPlot(tigertime, macaquetime) # we see the 2 graphs overlapping to see when they stay in the same place at the same time, with multivar we have a dimension analysis, with overlap we analize the temporal dimension
+
+# we see the 2 graphs overlapping to see when they stay in the same place at the same time, with multivar we have a dimension analysis, with overlap we analize the temporal dimension
+
+overlapPlot(tigertime, macaquetime) 
 
 ----
 
 # == means equal, and != means not equal (cioè punto esclamativo assieme a uguale)
+
 nomacaque <- kerinci[kerinci$Sps!="macaque",]
 summary(nomacaque) # vedi che manca la riga dei macachi 
 
