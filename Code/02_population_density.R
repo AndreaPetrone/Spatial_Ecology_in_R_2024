@@ -37,8 +37,9 @@ densitymap <- density(bei)
 plot(densitymap)
 points(bei, cex=.2) # ha aggiunto i puntini
 
+#prima ha assegnato a cl quel pattern di colori e poi l'ha visualizzato
 cl <- colorRampPalette(c("black", "red", "orange", "yellow"))(100)
-plot(densitymap, col=cl) #prima ha assegnato a cl quel pattern di colori e poi l'ha visualizzato
+plot(densitymap, col=cl) 
 
 cl <- colorRampPalette(c("black", "red", "orange", "yellow"))(4)
 plot(densitymap, col=cl)
@@ -56,8 +57,8 @@ par(mfrow=c(1,2)) #crea una tabella con 1 riga e 2 colonne
 plot(densitymap)
 plot(elev)
 
-par(mfrow=c(2,1)) #qua il contrario di prima, prima stabilisci
-le regole in cui ordinarli, e poi in base a chi scrivi prima si sistemano
+#qua il contrario di prima, prima stabilisci le regole in cui ordinarli, e poi in base a chi scrivi prima si sistemano
+par(mfrow=c(2,1)) 
 plot(densitymap)
 plot(elev)
 
@@ -65,14 +66,6 @@ par(mfrow=c(1,3))
 plot(bei)
 plot(densitymap)
 plot(elev)
-
-
-
-
-
-
-
-
 
 
 
