@@ -18,3 +18,4 @@ plot(milioni)
 setwd("C:/Users/Utente/Desktop/SPATIAL ECOLOGY")
 benito <- rast("Benito_Mussolini_colored.jpg")
 plot(benito)
+for exam: 2 images of the same place in 2 different times
