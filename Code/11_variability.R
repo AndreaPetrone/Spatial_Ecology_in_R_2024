@@ -20,12 +20,13 @@ install.packages("rasterdiv")
 # the higher the amount of outliers in the sample, the higher the variability
 
 library(imageRy)
+library(viridis)
 library(terra)
 im.list()
 
 sent <- im.import("sentinel.png") # there are 3 bands (+ one that we not consider)
 
-# band 1 = NIR (near infra red)
+# band 1 = NIR (near infra red) (the vegetation became red)
 # band 2 = red
 # band 3 = green
 
@@ -36,6 +37,8 @@ im.plotRGB(sent, r=1, g=2, b=3)
 # blue part is bare rock
 
 im.plotRGB(sent, r=2, g=1, b=3) # we can change colors associated to the bands
+im.plotRGB(sent, r=2, g=3, b=1) #yellow helps us to search info
+dev.off()
 
 # we can measure standard deviation
 # we use the NIR (it is our choice)
@@ -60,7 +63,10 @@ sd7 <- focal(nir, matrix(1/49, 7, 7), fun=sd)
 plot(sd7)
 
 # we can also plot sd3 and sd7 together
-
 par(mfrow=c(1,2))
 plot(sd3)
 plot(sd7) # wider regions with higher standard 
+
+# original image plus the 7x7 sd
+im.plotRGB(sent, r=2, g=1, b=3)
+plot(sd7)
