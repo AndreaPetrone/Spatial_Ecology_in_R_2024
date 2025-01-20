@@ -152,7 +152,7 @@ plot(densitymap)
 # the friend is "dev.off" that is controlling multiple devices, in our case is the plotting window
 # let's go back to the original plot(s)
 
-dev.off
+dev.off()
 
 # now we see only the plot of elevation2
 
