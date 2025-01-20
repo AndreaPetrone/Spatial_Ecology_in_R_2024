@@ -3,7 +3,7 @@
 # we are at population levels and individuals of the same species, about popolations we talked about density and distribution 
 # next level is about communities: different individuals from different species
 # once u're dealing with communities u deal with plots, measures in squares, reading table 
-# from tables we're moving to graphs, to understand ho species live together, then multivariate analysis for showing how much individuals are dealt with each other 
+# from tables we're moving to graphs, to understand how species live together, then multivariate analysis for showing how much individuals are dealt with each other 
 
 # presentation on duccio github account 
 
@@ -17,7 +17,7 @@
 
 # let's imagine an X axe and Y axe, in this 2 axes we have several individuals with a certain distribution, the X axe is containing 50% of all range, Y axe other 50% (ha disegnato un grafico cartesiano con una striscia di punti in diagonale dall'origine), then we draw a line from origin to top right called component1 and another from top left to down right called component2 -> creating component we change the originals system passing from X/Y to more asses -> PCA PRINCIPAL COMPONENT ANALYSIS. 
 
-# PCA is one of multivariate analysis and helps to pass froma  system made of multidimensions to one made by 2 dimensions, and from 2 dimensions to 1 dimensions.
+# PCA is one of multivariate analysis and helps to pass from a system made of multidimensions to one made by 2 dimensions, and from 2 dimensions to 1 dimensions.
 
 # we get a system with several species and compact them with pc1 (principal component) and pc2
 
@@ -38,7 +38,7 @@ View(dune) # to see the table but on R is better
 decorana(dune) #dune is the dataset, decorana is the analysis
 multivar <- decorana(dune) # we assign decorana(dune) to multivar
 
-# we passed from original set to 4 axis (DCA1,2,3,4), writing decorana(dune) we see the length of axis, the length is the amount of range represented from the axis. the aim is to see the percentage of the original range which is incorporated in 2 axis. the maximum amount of axis we can use is 3 because our brains work in 3 dimensions.
+# we passed from original set to 4 axis (DCA1,2,3,4), writing decorana(dune) we see the length of axis, the length is the amount of range represented from the axis. the aim is to see the percentage of the original range which is incorporated in two axis. the maximum amount of axis we can use is 3 because our brains work in 3 dimensions.
 
 dca1 = 3.7004
 dca2 = 3.1166
