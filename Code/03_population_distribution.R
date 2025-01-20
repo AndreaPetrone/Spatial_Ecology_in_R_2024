@@ -34,7 +34,7 @@ rana <- vect(file) # file is the object we named before instead of writing syste
 
 #now let's plot this data
 rana$Occurrence 
-plot(data) 
+plot(rana) 
 
 #in this file some points represent the presence of the species (occurance = 1) and other the absence (occurance = 0), now we select the data where there is the species (occurence = 1)
 
@@ -60,7 +60,7 @@ abse$Occurrence #the datas with absences it's not said that the animal is not th
 
 # we use dev.off to destroy the multiframe we created before and then we write plot(abse)
 
-plot abse
+plot (abse)
 
 # exercise: plot in a multiframe presences beside absences 
 
