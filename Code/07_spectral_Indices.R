@@ -47,7 +47,7 @@ par(mfrow=c(1,2))
 im.plotRGB(m1992, r=1, g=2, b=3)
 im.plotRGB(m2006, r=1, g=2, b=3)
 
-# exercise: make a multiframe with 6 images in paiirs with nir on the same component
+# exercise: make a multiframe with 6 images in pairs with nir on the same component
 # first row: m1992 and m2006 with r= 1
 # second row: m1992 and m2006 with g= 1
 # third row: m1992 and m2006 with b= 1
@@ -62,7 +62,7 @@ im.plotRGB(m1992, r=2,g=3, b=1)
 im.plotRGB(m2006, r=2,g=3, b=1)
 
 # VEGETATION INDICES 
-# spectral signature -> several spectral bands. in case of healthy plants: reflects in NIR 100, red 10, we can mount this information to make a single index DVI (different vegetation index). DIV = NIR - red = 100-10 = 90 (DVI of the plant). imagine the plant is about to die, the plant will not absorb blue or red and reflectance will be high because cloroplasts don't work. so now NIR = 80, red = 20, DVI = NIR - red = 80-20 = 60. with two images u can calculate different DVIs
+# spectral signature -> several spectral bands. in case of healthy plants: reflects in NIR 100, red 10, we can mount this information to make a single index DVI (different vegetation index). DVI = NIR - red = 100-10 = 90 (DVI of the plant). imagine the plant is about to die, the plant will not absorb blue or red and reflectance will be high because cloroplasts don't work. so now NIR = 80, red = 20, DVI = NIR - red = 80-20 = 60. with two images u can calculate different DVIs
 # calculate DVI of 1992 and DVI o 2006
 # different vegetation index 1992
 
