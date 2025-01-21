@@ -25,7 +25,7 @@ summary (kerinci)
 
 kerinci$Timecirc <- kerinci$Time * 2 * pi # dollaro per assegnare, asterico come moltiplicare, pi come pi-greco. kerinci$Timecirc è il nome che gli abbiamo dato. mettere il dollaro nel nome era necessario per creare la colonna nel dataset kerinci, altrimenti era come creare un oggetto separato dal dataset.
 
-# se scrivi "names" ottieni i nomi delle colonne
+# se scrivi "names(kerinci)" ottieni i nomi delle colonne
 # now we want to set only the tiger data with symbol "==" to select only tiger path
 
 # parentesi quadre per fare la selezione, the "," to close the query, ci vuole la virgola finale quando selezioni se no dà errore.
