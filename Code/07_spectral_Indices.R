@@ -92,3 +92,9 @@ plot(ndvi1992, col=cl)
 plot(ndvi2006, col=cl)
 
 # u can use viridis for colorblind people
+plot(ndvi1992,col=magma(100))
+plot(ndvi2006,col=magma(100))
+plot(ndvi1992,col=inferno(100))
+plot(ndvi2006,col=inferno(100))
+plot(ndvi1992,col=cividis(100))
+plot(ndvi2006,col=cividis(100))
