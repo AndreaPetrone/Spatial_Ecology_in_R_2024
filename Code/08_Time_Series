@@ -9,10 +9,10 @@ library(imageRy)
 im.list()
 
 #One dataset = EN01 let's import
-EN01 <- im.import("EN_01.png") #3 layers in RGB ,colorblind people don't see that, you can see parts of Europe (no human activities during the lockdown )
+EN01 <- im.import("EN_01.png") #3 layers in RGB, colorblind people don't see that, you can see parts of Europe (no human activities during the lockdown )
 EN01
 
-#Let's import also the EN13 (March) look this: on this case it's completely different u can see that was a big decrease during the stop (industries, traffic ecc)
+#Let's import also the EN13 (March) look this: on this case it's completely different u can see there was a big decrease during the stop (industries, traffic ecc)
 EN13 <- im.import("EN_13.png")
 EN13
 
@@ -42,10 +42,10 @@ plot(greenl[[4]]) #low temperature on the central part (not melting)
 
 #Let's see the difference 
 difgreenl <- greenl[[1]] - greenl[[4]]
-dev.off()
 plot(difgreenl) 
+dev.off()
 
 #Exercise: compose a RGB image with the years of the Greenland temperature
-im.plotRGB(gr, r=1, g=2, b=4)
+im.plotRGB(green1, r=1, g=2, b=4)
 #green: 2000, 2005, 2010, 2015
-##most of the blue area : high temperature 
+#most of the blue area : high temperature 
