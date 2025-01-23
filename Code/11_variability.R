@@ -1,7 +1,7 @@
 # script to measure variability
 # the higher the variability the higher the complexity of the system
 # the higher variability will lead to have several species living in a certain place
-# measure point of variability is the higher the variability the higher the texture of the place, the higher complexity
+# measure point of variability: the higher the variability the higher the texture of the place, the higher complexity
 
 # how to measure variability: rasterdiv
 # install here https://cran.r-project.org/web/packages/rasterdiv/index.html
@@ -10,10 +10,8 @@ install.packages("rasterdiv")
 
 # we are going to measure only the standard deviation. if you have a curve, the stand dev represents a variability of 68% of data over the mean
 
-# measure the difference between every signle data in the mean, measure how much every person is out of the standard deviation (measure the outlier)
+# measure the difference between every single data in the mean, measure how much every person is out of the standard deviation (measure the outlier)
 # we measure the standard deviation over an image
-
-# what is standard deviation. you have the mean of a certain sample
 
 # he is explaining at the standard deviation formula https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DIaTFpp-uzp0&psig=AOvVaw0Re6licBnhnCErvKL1Aljp&ust=1734097827035000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIDL6PqvoooDFQAAAAAdAAAAABAE
 
@@ -32,7 +30,7 @@ sent <- im.import("sentinel.png") # there are 3 bands (+ one that we not conside
 
 im.plotRGB(sent, r=1, g=2, b=3)
 
-# green is ??
+# green is ground
 # dark red are woodlands
 # blue part is bare rock
 
@@ -67,6 +65,6 @@ par(mfrow=c(1,2))
 plot(sd3)
 plot(sd7) # wider regions with higher standard 
 
-# original image plus the 7x7 sd
+# original image with the 7x7 sd
 im.plotRGB(sent, r=2, g=1, b=3)
 plot(sd7)
