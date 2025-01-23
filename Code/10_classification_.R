@@ -6,10 +6,6 @@
 # We can go to a site, download an image, import to R and work on it
 
 # Classification proess in R using imageRy 
-
-library(terra)
-library(imageRy)
-im.list()
 sun <- im.import("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg") 
 
 # We can classify this image and we specify the number of classes (or clusters)   
