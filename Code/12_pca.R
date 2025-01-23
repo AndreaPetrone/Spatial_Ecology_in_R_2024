@@ -19,7 +19,7 @@ plot(sentpc) # the deviation standard is on the image
 
 # there is the variability explained by the principal component in the pc1, we extract pc1 (more variability = more information)
 
-pc1 <- sentpc[[1]] # 80% of variability 
+pc1 <- sentpc[[1]] # 88,59% of variability 
 pc1 # you see useful information like coordinates
 
 pc1sd <- focal(pc1, matrix(1/9, 3, 3), fun=sd) # function focal to calculate standard deviation and shows areas with more variability
