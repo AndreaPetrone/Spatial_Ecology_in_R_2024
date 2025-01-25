@@ -1,0 +1,66 @@
+CODICE DI R
+Pacchetti usati:
+-	Terra (portare foto da esterno)
+-	Viridis (daltonici)
+-	imageRy (classificare)
+-	ggplot2 (fare grafici)
+passaggi:
+1)	-
+a.	importo immagini -> rast
+b.	plot multiframe
+2)	– 
+a.	Assegna bande per im.classify
+b.	Classificazione
+c.	Plot
+3)	–
+a.	Calcoli frequenza classe
+b.	N pixel
+c.	Percentuale cluster
+d.	Data frame 
+4)	–
+a.	Grafico per confrontare distribuzione classi
+5)	–
+a.	Color ramp palette ndvi e viridis
+b.	Ndvi
+c.	Plot
+6)	–
+a.	Differenza di ndvi
+b.	Plot
+c.	Istogramma
+Conclusione
+
+> library(terra)
+terra 1.8.10
+> library(imageRy)
+> library(ggplot2)
+> library(patchwork)
+> setwd("C:/Users/Utente/Desktop/spatial ecology")
+> getwd()
+"C:/Users/Utente/Desktop/spatial ecology"
+Prova:
+
+maradiTC17<-rast("tc251017.jpg")
+maradiTC17<-flip(maradiTC17)
+plot(maradiTC17)
+
+maradiFC17 <-rast("fc251017.jpg")
+maradiFC17 <- flip(maradiFC17)
+plot(maradiFC17)
+
+maradiTC24 <- rast("tc231024.jpg")
+maradiTC24 <- flip(maradiTC24)
+plot(maradiTC24)
+
+maradiFC24 <-rast("fc231024.jpg")
+maradiFC24 <- flip(maradiFC24)
+plot(maradiFC24)
+
+par(mfrow=c(2,2))
+plot(maradiTC17)
+plot(maradiFC17)
+plot(maradiTC24)
+plot(maradiFC24)
+
+
+
+
