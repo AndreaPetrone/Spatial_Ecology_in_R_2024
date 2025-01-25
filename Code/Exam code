@@ -61,6 +61,11 @@ plot(maradiFC17)
 plot(maradiTC24)
 plot(maradiFC24)
 
+classMTC17<-im.classify(maradiTC17,num_clusters=2)
+classMTC24<-im.classify(maradiTC24,num_clusters=2)
+par(mfrow=c(1,2))
+plot(classMTC17)
+plot(classMC24)
 
 
 
