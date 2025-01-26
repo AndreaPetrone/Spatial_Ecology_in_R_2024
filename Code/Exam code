@@ -29,13 +29,13 @@ b.	Plot
 c.	Istogramma
 Conclusione
 
-> library(terra)
-terra 1.8.10
-> library(imageRy)
-> library(ggplot2)
-> library(patchwork)
-> setwd("C:/Users/Utente/Desktop/spatial ecology")
-> getwd()
+library(terra)
+library(imageRy)
+library(ggplot2)
+library(patchwork)
+setwd("C:/Users/Utente/Desktop/spatial ecology")
+getwd()
+
 "C:/Users/Utente/Desktop/spatial ecology"
 Prova:
 
@@ -56,16 +56,48 @@ maradiFC24 <- flip(maradiFC24)
 plot(maradiFC24)
 
 par(mfrow=c(2,2))
-plot(maradiTC17)
-plot(maradiFC17)
-plot(maradiTC24)
-plot(maradiFC24)
+plot(maradiTC17,main="True color 2017")
+plot(maradiFC17,main="False color 2017")
+plot(maradiTC24,main="True color 2024")
+plot(maradiFC24,main="False color 2024")
 
+CLASSIFY SU BANDA INTERA UNITA
+
+bmR17<-maradiTC17[[1]]
+bmG17<-maradiTC17[[2]]
+bmB17<-maradiTC17[[3]]
+bmI17<-maradiFC17[[1]]
+bandamaradi17<-c(bmR17,bmG17, bmB17,bmI17)
+Cbm17<-im.classify(bandamaradi17, num_clusters=2)
+plot(Cbm17)
+
+bmR24<-maradiTC24[[1]]
+bmG24<-maradiTC24[[2]]
+bmB24<-maradiTC24[[3]]
+bmI24<-maradiFC24[[1]]
+bandamaradi24<-c(bmR24,bmG24, bmB24,bmI24)
+Cbm24<-im.classify(bandamaradi24, num_clusters=2)
+plot(Cbm24)
+
+cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100)
+par(mfrow=c(1,2))
+plot(Cbm17,col=cl)
+plot(Cbm24,col=cl)
+
+QUESTO E' CLASSIFY SU UNA FOTO (non importante, da cancellare)
 classMTC17<-im.classify(maradiTC17,num_clusters=2)
 classMTC24<-im.classify(maradiTC24,num_clusters=2)
 par(mfrow=c(1,2))
 plot(classMTC17)
-plot(classMC24)
+plot(classMTC24)
 
 
+combinazioni plotRGB
+im.plotRGB(bandamaradi17,r=4,g=2,b=3)
+im.plotRGB(bandamaradi17,r=1,g=4,b=3)
+im.plotRGB(bandamaradi17,r=1,g=2,b=4)
+
+im.plotRGB(bandamaradi24,r=4,g=2,b=3)
+im.plotRGB(bandamaradi24,r=1,g=4,b=3)
+im.plotRGB(bandamaradi24,r=1,g=2,b=4)
 
