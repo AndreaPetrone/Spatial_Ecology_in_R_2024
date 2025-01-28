@@ -43,6 +43,7 @@ maradiTC17<-rast("tc251017.jpg")
 maradiTC17<-flip(maradiTC17)
 plot(maradiTC17)
 
+
 maradiFC17 <-rast("fc251017.jpg")
 maradiFC17 <- flip(maradiFC17)
 plot(maradiFC17)
@@ -51,15 +52,27 @@ maradiTC24 <- rast("tc231024.jpg")
 maradiTC24 <- flip(maradiTC24)
 plot(maradiTC24)
 
+
 maradiFC24 <-rast("fc231024.jpg")
 maradiFC24 <- flip(maradiFC24)
 plot(maradiFC24)
+dev.off()
 
 par(mfrow=c(2,2))
 plot(maradiTC17,main="True color 2017")
 plot(maradiFC17,main="False color 2017")
 plot(maradiTC24,main="True color 2024")
 plot(maradiFC24,main="False color 2024")
+dev.off()
+
+combinazioni plotRGB
+im.plotRGB(bandamaradi17,r=4,g=2,b=3)
+im.plotRGB(bandamaradi17,r=1,g=4,b=3)
+im.plotRGB(bandamaradi17,r=1,g=2,b=4)
+
+im.plotRGB(bandamaradi24,r=4,g=2,b=3)
+im.plotRGB(bandamaradi24,r=1,g=4,b=3)
+im.plotRGB(bandamaradi24,r=1,g=2,b=4)
 
 CLASSIFY SU BANDA INTERA UNITA
 
@@ -83,21 +96,47 @@ cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100)
 par(mfrow=c(1,2))
 plot(Cbm17,col=cl)
 plot(Cbm24,col=cl)
+dev.off()
 
-QUESTO E' CLASSIFY SU UNA FOTO (non importante, da cancellare)
-classMTC17<-im.classify(maradiTC17,num_clusters=2)
-classMTC24<-im.classify(maradiTC24,num_clusters=2)
-par(mfrow=c(1,2))
-plot(classMTC17)
-plot(classMTC24)
+# calculate the amount of pixels
+f17 <- freq(Cbm17)
+tot17 <- ncell(Cbm17)
+p17 = f17*100/tot17
+class 1 agriculture = 33%
+class 2 city = 63%
 
+f24 <- freq(Cbm24)
+tot24 <- ncell(Cbm24)
+p24 = f24*100/tot24
+class 1 agriculture = 36%
+class 2 city = 66%
 
-combinazioni plotRGB
-im.plotRGB(bandamaradi17,r=4,g=2,b=3)
-im.plotRGB(bandamaradi17,r=1,g=4,b=3)
-im.plotRGB(bandamaradi17,r=1,g=2,b=4)
+# building a dataframe
+y2017 <- c(33,66)
+y2024 <- c(36,63)
+classM <- c("Agriculture", "Human")
+group <- data.frame(classM,y2017,y2024)
+group
 
-im.plotRGB(bandamaradi24,r=4,g=2,b=3)
-im.plotRGB(bandamaradi24,r=1,g=4,b=3)
-im.plotRGB(bandamaradi24,r=1,g=2,b=4)
+M1 <- ggplot(group, aes(x=classM, y=y2017, fill=classM, color=classM)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
+  scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
+  ylim(c(0, 100))
+
+M2 <- ggplot(group, aes(x=classM, y=y2024, fill=classM, color=classM)) +
+  geom_bar(stat="identity") +
+  scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
+  scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
+  ylim(c(0, 100))
+
+M1+M2
+M1/M2
+
+Riassunto degli argomenti chiave:
+fill: Cambia il colore del riempimento delle barre.
+color: Cambia il colore del bordo delle barre.
+scale_fill_manual(): Personalizza i colori del riempimento.
+scale_color_manual(): Personalizza i colori del bordo.
+
 
