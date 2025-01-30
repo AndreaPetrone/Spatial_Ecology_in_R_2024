@@ -1,34 +1,10 @@
-CODICE DI R
 Pacchetti usati:
 -	Terra (portare foto da esterno)
 -	Viridis (daltonici)
 -	imageRy (classificare)
 -	ggplot2 (fare grafici)
 - patchwork
-passaggi:
-1)	-
-a.	importo immagini -> rast
-b.	plot multiframe
-2)	– 
-a.	Assegna bande per im.classify
-b.	Classificazione
-c.	Plot
-3)	–
-a.	Calcoli frequenza classe
-b.	N pixel
-c.	Percentuale cluster
-d.	Data frame 
-4)	–
-a.	Grafico per confrontare distribuzione classi
-5)	–
-a.	Color ramp palette ndvi e viridis
-b.	Ndvi
-c.	Plot
-6)	–
-a.	Differenza di ndvi
-b.	Plot
-c.	Istogramma
-Conclusione
+- rasterdiv (variabilità)
 
 library(terra)
 library(imageRy)
@@ -146,6 +122,7 @@ La banda nir aggiunta rende più visibile la presenza di vegetazione andando a r
 CALCOLO DVI E NDVI
 
 cl<- colorRampPalette(c("black","white","red"))(100)
+viridisc <- colorRampPalette(viridis(7))(255)
 
 dvi2017<-bandamaradi17[[4]]-bandamaradi17[[1]]
 plot(dvi2017)
@@ -157,7 +134,71 @@ plot(dvi2024,col=cl)
 
 ndvi2017 = dvi2017/(bandamaradi17[[4]]+bandamaradi17[[1]])
 plot(ndvi2017)
+plot(dvi2017,col=viridisc)
 
 ndvi2024 = dvi2024/(bandamaradi24[[4]]+bandamaradi24[[1]])
 plot(ndvi2024)
+plot(ndvi2024,col=viridisc)
 
+NDVI grafiche con viridis per colorblind
+
+par(mfrow=c(2,2))
+plot(ndvi2017,col=cl)
+plot(ndvi2017,col=viridisc)
+plot(ndvi2024,col=cl)
+plot(ndvi2024,col=viridisc)
+dev.off()
+
+differenze NDVI
+
+Difndvi=ndvi2024-ndvi2017
+plot(Difndvi,col=cl)
+plot(Difndvi,col=viridisc)
+
+istogramma per vedere meglio
+
+library(RColorBrewer)
+
+par(mfrow=c(1,2))
+ist17 <- hist(ndvi2017, main="NDVI 2017", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))
+ist24 <- hist(ndvi2024, main="NDVI 2024", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))  # Palette "Greens"
+dev.off()
+
+calcolo standard deviation su NIR
+
+library(rasterdiv)
+nir17 <- bandamaradi17[[4]]
+sd3nir17 <- focal(nir17, matrix(1/9,3,3),fun=sd)
+
+nir24 <- bandamaradi24[[4]]
+sd3nir24 <- focal(nir24, matrix(1/9,3,3),fun=sd)
+
+par(mfrow=c(1,2))
+plot(sd3nir17,col=viridisc)
+plot(sd3nir24,col=viridisc)
+dev.off()
+
+passaggi: pca su oggetto con tutte bande -> ricavi solo la pc1 perchè spiega la maggior variabilità -> da quella ricavata fai dev st.
+
+correlazione informazioni
+
+pairs(bandamaradi17)
+pairs(bandamaradi24)
+
+calcolo variabilità su pca
+
+Mpca2017 <- im.pca(bandamaradi17)
+pc12017 <- Mpca2017[[1]]
+pc12017
+pc1sd2017 <- focal(pc12017, matrix(1/9,3,3),fun=sd)
+plot(pc1sd2017)
+
+Mpca2024 <- im.pca(bandamaradi24)
+pc12024 <- Mpca2024[[1]]
+pc12024
+pc1sd2024 <- focal(pc12024, matrix(1/9,3,3),fun=sd)
+plot(pc1sd2024)
+
+par(mfrow=c(1,2))
+plot(pc1sd2017)
+plot(pc1sd2024)
