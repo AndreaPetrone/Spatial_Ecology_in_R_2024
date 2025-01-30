@@ -10,6 +10,8 @@ library(terra)
 library(imageRy)
 library(ggplot2)
 library(patchwork)
+library(viridis)
+library(rasterdiv)
 setwd("C:/Users/Utente/Desktop/spatial ecology")
 getwd()
 
@@ -121,16 +123,17 @@ La banda nir aggiunta rende più visibile la presenza di vegetazione andando a r
 
 CALCOLO DVI E NDVI
 
-cl<- colorRampPalette(c("black","white","red"))(100)
+cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100)
+
 viridisc <- colorRampPalette(viridis(7))(255)
 
 dvi2017<-bandamaradi17[[4]]-bandamaradi17[[1]]
 plot(dvi2017)
-plot(dvi2017,col=cl)
+plot(dvi2017,col=cl1)
 
 dvi2024<-bandamaradi24[[4]]-bandamaradi24[[1]]
 plot(dvi2024)
-plot(dvi2024,col=cl)
+plot(dvi2024,col=cl1)
 
 ndvi2017 = dvi2017/(bandamaradi17[[4]]+bandamaradi17[[1]])
 plot(ndvi2017)
@@ -143,16 +146,16 @@ plot(ndvi2024,col=viridisc)
 NDVI grafiche con viridis per colorblind
 
 par(mfrow=c(2,2))
-plot(ndvi2017,col=cl)
+plot(ndvi2017,col=cl1)
 plot(ndvi2017,col=viridisc)
-plot(ndvi2024,col=cl)
+plot(ndvi2024,col=cl1)
 plot(ndvi2024,col=viridisc)
 dev.off()
 
 differenze NDVI
 
 Difndvi=ndvi2024-ndvi2017
-plot(Difndvi,col=cl)
+plot(Difndvi,col=cl1)
 plot(Difndvi,col=viridisc)
 
 istogramma per vedere meglio
@@ -200,5 +203,6 @@ pc1sd2024 <- focal(pc12024, matrix(1/9,3,3),fun=sd)
 plot(pc1sd2024)
 
 par(mfrow=c(1,2))
-plot(pc1sd2017)
-plot(pc1sd2024)
+plot(pc1sd2017,col=viridis(100))
+plot(pc1sd2024,col=viridis(100))
+
