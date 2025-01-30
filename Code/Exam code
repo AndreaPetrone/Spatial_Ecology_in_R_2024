@@ -161,7 +161,3 @@ plot(ndvi2017)
 ndvi2024 = dvi2024/(bandamaradi24[[4]]+bandamaradi24[[1]])
 plot(ndvi2024)
 
-
-
-
-ndvi2024 = dvi2024/(bandamaradi24[[4]]-bandamaradi24[[1]])
