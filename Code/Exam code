@@ -4,6 +4,7 @@ Pacchetti usati:
 -	Viridis (daltonici)
 -	imageRy (classificare)
 -	ggplot2 (fare grafici)
+- patchwork
 passaggi:
 1)	-
 a.	importo immagini -> rast
@@ -65,15 +66,6 @@ plot(maradiTC24,main="True color 2024")
 plot(maradiFC24,main="False color 2024")
 dev.off()
 
-combinazioni plotRGB
-im.plotRGB(bandamaradi17,r=4,g=2,b=3)
-im.plotRGB(bandamaradi17,r=1,g=4,b=3)
-im.plotRGB(bandamaradi17,r=1,g=2,b=4)
-
-im.plotRGB(bandamaradi24,r=4,g=2,b=3)
-im.plotRGB(bandamaradi24,r=1,g=4,b=3)
-im.plotRGB(bandamaradi24,r=1,g=2,b=4)
-
 CLASSIFY SU BANDA INTERA UNITA
 
 bmR17<-maradiTC17[[1]]
@@ -97,6 +89,15 @@ par(mfrow=c(1,2))
 plot(Cbm17,col=cl)
 plot(Cbm24,col=cl)
 dev.off()
+
+combinazioni plotRGB
+im.plotRGB(bandamaradi17,r=4,g=2,b=3)
+im.plotRGB(bandamaradi17,r=1,g=4,b=3)
+im.plotRGB(bandamaradi17,r=1,g=2,b=4)
+
+im.plotRGB(bandamaradi24,r=4,g=2,b=3)
+im.plotRGB(bandamaradi24,r=1,g=4,b=3)
+im.plotRGB(bandamaradi24,r=1,g=2,b=4)
 
 # calculate the amount of pixels
 f17 <- freq(Cbm17)
@@ -123,6 +124,7 @@ M1 <- ggplot(group, aes(x=classM, y=y2017, fill=classM, color=classM)) +
   scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
   scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
   ylim(c(0, 100))
+M1
 
 M2 <- ggplot(group, aes(x=classM, y=y2024, fill=classM, color=classM)) +
   geom_bar(stat="identity") +
@@ -139,4 +141,27 @@ color: Cambia il colore del bordo delle barre.
 scale_fill_manual(): Personalizza i colori del riempimento.
 scale_color_manual(): Personalizza i colori del bordo.
 
+La banda nir aggiunta rende più visibile la presenza di vegetazione andando a ridurre le differenze tra i due anni; probabilmente un'area più piccola avrebbe mostrato differenze maggiori.
 
+CALCOLO DVI E NDVI
+
+cl<- colorRampPalette(c("black","white","red"))(100)
+
+dvi2017<-bandamaradi17[[4]]-bandamaradi17[[1]]
+plot(dvi2017)
+plot(dvi2017,col=cl)
+
+dvi2024<-bandamaradi24[[4]]-bandamaradi24[[1]]
+plot(dvi2024)
+plot(dvi2024,col=cl)
+
+ndvi2017 = dvi2017/(bandamaradi17[[4]]+bandamaradi17[[1]])
+plot(ndvi2017)
+
+ndvi2024 = dvi2024/(bandamaradi24[[4]]+bandamaradi24[[1]])
+plot(ndvi2024)
+
+
+
+
+ndvi2024 = dvi2024/(bandamaradi24[[4]]-bandamaradi24[[1]])
