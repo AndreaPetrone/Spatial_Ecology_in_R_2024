@@ -1,10 +1,3 @@
-Pacchetti usati:
--	Terra (portare foto da esterno)
--	Viridis (daltonici)
--	imageRy (classificare)
--	ggplot2 (fare grafici)
-- patchwork
-- rasterdiv (variabilità)
 
 library(terra)
 library(imageRy)
@@ -174,48 +167,45 @@ dev.off()
 # PCA Analysis for spatial variability
 
 pca17 <- im.pca(bm17)
+
+pca1 = 38.966791
+pca2 = 24.927165
+pca3 = 7.061764
+pca4 = 3.160646
+
 tot17 <- sum(38.966791, 24.927165, 7.061764, 3.160646)
+c(38.966791*100/tot17, 24.927165*100/tot17, 7.061764*100/tot17, 3.160646*100/tot17)
 
+52.575151,  33.632471,  9.527942,  4.264437 #variability explained by each axis
 
+pc17c <- pca17[[1]] + pca17[[2]]
+pcsd17 <- focal(pc17c, matrix(1/9,3,3),fun=sd)
 
+do the same for 2024
 
+pca24 <- im.pca(bm24)
 
-calcolo standard deviation su NIR
+pca1 = 43.268299
+pca2 = 30.392128
+pca3 = 7.706479
+pca4 = 2.916731
 
-library(rasterdiv)
-nir17 <- bandamaradi17[[4]]
-sd3nir17 <- focal(nir17, matrix(1/9,3,3),fun=sd)
+tot24 <- sum(43.268299, 30.392128, 7.706479, 2.916731)
+c(43.268299*100/tot24, 30.392128*100/tot24, 7.706479*100/tot24, 2.916731*100/tot24)
 
-nir24 <- bandamaradi24[[4]]
-sd3nir24 <- focal(nir24, matrix(1/9,3,3),fun=sd)
+51.336535, 36.059346,  9.143506,  3.460614
 
+pc24c <- pca24[[1]] + pca24[[2]]
+pcsd24 <- focal(pc24c, matrix(1/9,3,3),fun=sd)
+
+# results in a multiframe
 par(mfrow=c(1,2))
-plot(sd3nir17,col=viridisc)
-plot(sd3nir24,col=viridisc)
-dev.off()
-
-passaggi: pca su oggetto con tutte bande -> ricavi solo la pc1 perchè spiega la maggior variabilità -> da quella ricavata fai dev st.
+plot(pcsd17, col=viridisc)
+plot(pcsd24, col=viridisc)
 
 correlazione informazioni
 
 pairs(bandamaradi17)
 pairs(bandamaradi24)
 
-calcolo variabilità su pca
-
-Mpca2017 <- im.pca(bandamaradi17)
-pc12017 <- Mpca2017[[1]]
-pc12017
-pc1sd2017 <- focal(pc12017, matrix(1/9,3,3),fun=sd)
-plot(pc1sd2017)
-
-Mpca2024 <- im.pca(bandamaradi24)
-pc12024 <- Mpca2024[[1]]
-pc12024
-pc1sd2024 <- focal(pc12024, matrix(1/9,3,3),fun=sd)
-plot(pc1sd2024)
-
-par(mfrow=c(1,2))
-plot(pc1sd2017,col=viridis(100))
-plot(pc1sd2024,col=viridis(100))
 
