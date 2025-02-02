@@ -12,6 +12,7 @@ library(ggplot2)
 library(patchwork)
 library(viridis)
 library(rasterdiv)
+library(RColorBrewer)
 setwd("C:/Users/Utente/Desktop/spatial ecology")
 getwd()
 
@@ -50,16 +51,16 @@ bmR17<-maradiTC17[[1]]
 bmG17<-maradiTC17[[2]]
 bmB17<-maradiTC17[[3]]
 bmI17<-maradiFC17[[1]]
-bandamaradi17<-c(bmR17,bmG17, bmB17,bmI17)
-Cbm17<-im.classify(bandamaradi17, num_clusters=2)
+bm17<-c(bmR17,bmG17, bmB17,bmI17)
+Cbm17<-im.classify(bm17, num_clusters=2)
 plot(Cbm17)
 
 bmR24<-maradiTC24[[1]]
 bmG24<-maradiTC24[[2]]
 bmB24<-maradiTC24[[3]]
 bmI24<-maradiFC24[[1]]
-bandamaradi24<-c(bmR24,bmG24, bmB24,bmI24)
-Cbm24<-im.classify(bandamaradi24, num_clusters=2)
+bm24<-c(bmR24,bmG24, bmB24,bmI24)
+Cbm24<-im.classify(bm24, num_clusters=2)
 plot(Cbm24)
 
 cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100)
@@ -69,26 +70,28 @@ plot(Cbm24,col=cl)
 dev.off()
 
 combinazioni plotRGB
-im.plotRGB(bandamaradi17,r=4,g=2,b=3)
-im.plotRGB(bandamaradi17,r=1,g=4,b=3)
-im.plotRGB(bandamaradi17,r=1,g=2,b=4)
+im.plotRGB(bm17,r=4,g=2,b=3)
+im.plotRGB(bm17,r=1,g=4,b=3)
+im.plotRGB(bm17,r=1,g=2,b=4)
 
-im.plotRGB(bandamaradi24,r=4,g=2,b=3)
-im.plotRGB(bandamaradi24,r=1,g=4,b=3)
-im.plotRGB(bandamaradi24,r=1,g=2,b=4)
+im.plotRGB(bm24,r=4,g=2,b=3)
+im.plotRGB(bm24,r=1,g=4,b=3)
+im.plotRGB(bm24,r=1,g=2,b=4)
 
 # calculate the amount of pixels
 f17 <- freq(Cbm17)
 tot17 <- ncell(Cbm17)
 p17 = f17*100/tot17
+p17
 class 1 agriculture = 33%
-class 2 city = 63%
+class 2 city = 67%
 
 f24 <- freq(Cbm24)
 tot24 <- ncell(Cbm24)
 p24 = f24*100/tot24
+p24
 class 1 agriculture = 36%
-class 2 city = 66%
+class 2 city = 64%
 
 # building a dataframe
 y2017 <- c(33,66)
@@ -109,6 +112,7 @@ M2 <- ggplot(group, aes(x=classM, y=y2024, fill=classM, color=classM)) +
   scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
   scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
   ylim(c(0, 100))
+M2
 
 M1+M2
 M1/M2
@@ -127,19 +131,19 @@ cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen
 
 viridisc <- colorRampPalette(viridis(7))(255)
 
-dvi2017<-bandamaradi17[[4]]-bandamaradi17[[1]]
+dvi2017<-bm17[[4]]-bm17[[1]]
 plot(dvi2017)
 plot(dvi2017,col=cl1)
 
-dvi2024<-bandamaradi24[[4]]-bandamaradi24[[1]]
+dvi2024<-bm24[[4]]-bm24[[1]]
 plot(dvi2024)
 plot(dvi2024,col=cl1)
 
-ndvi2017 = dvi2017/(bandamaradi17[[4]]+bandamaradi17[[1]])
+ndvi2017 = dvi2017/(bm17[[4]]+bm17[[1]])
 plot(ndvi2017)
 plot(dvi2017,col=viridisc)
 
-ndvi2024 = dvi2024/(bandamaradi24[[4]]+bandamaradi24[[1]])
+ndvi2024 = dvi2024/(bm24[[4]]+bm24[[1]])
 plot(ndvi2024)
 plot(ndvi2024,col=viridisc)
 
@@ -166,6 +170,15 @@ par(mfrow=c(1,2))
 ist17 <- hist(ndvi2017, main="NDVI 2017", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))
 ist24 <- hist(ndvi2024, main="NDVI 2024", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))  # Palette "Greens"
 dev.off()
+
+# PCA Analysis for spatial variability
+
+pca17 <- im.pca(bm17)
+tot17 <- sum(38.966791, 24.927165, 7.061764, 3.160646)
+
+
+
+
 
 calcolo standard deviation su NIR
 
