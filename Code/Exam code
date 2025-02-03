@@ -1,91 +1,118 @@
+# R project focussing on temporal analysis of Farmer-Managed Natural Regeneration (FMNR) by The Great Green Wall project in Maradi city, in Africa.
 
-library(terra)
-library(imageRy)
-library(ggplot2)
-library(patchwork)
-library(viridis)
-library(rasterdiv)
-library(RColorBrewer)
+# Install the following packages using the install.packages() function. The packages should be enclosed in quotation marks.
+install.packages(c("terra","ggplot2","patchwork","viridis","rasterdiv","devtools","RcolorBrewer")
+
+# Install imageRy from GitHub
+install_github("ducciorocchini/imageRy")
+
+# Recall all the packages with the function library(), no quotation marks are needed now.
+library(terra) # Used for handling spatial data, particularly raster and vector data (e.g. satellite images)
+library(ggplot2) # Used for the creation of graphs
+library(patchwork) # Used for combining multiple graphs into a single plot
+library(viridis) # Used for color palettes that are uniform and colorblind-friendly
+library(devtools) # Used for developing, installing, and managing R packages
+library(imageRy) # Used for handling raster images
+library(RcolorBrewer) # Used for creating color palettes, specially for data visualisation
+
+# Function setwd() used to set the correct directory, it is needed to import images from you files
 setwd("C:/Users/Utente/Desktop/spatial ecology")
-getwd()
 
+# Function used to see if the directory is correct
+getwd()
 "C:/Users/Utente/Desktop/spatial ecology"
-Prova:
+
+# Now let's import all the images of Maradi city from 2017 and 2024 downloaded from Copernicus Sentinel 2, assign them to objects and plot them to ensure the image is the chosen one
+# The function used is rast() and it comes from the package "terra"
 
 maradiTC17<-rast("tc251017.jpg")
-maradiTC17<-flip(maradiTC17)
+maradiTC17<-flip(maradiTC17) # TC = True Color (bands R, G and B) 2017
 plot(maradiTC17)
 
-
-maradiFC17 <-rast("fc251017.jpg")
+maradiFC17 <-rast("fc251017.jpg") # FC = False Color ((bands NIR, G and B) 2017
 maradiFC17 <- flip(maradiFC17)
 plot(maradiFC17)
 
-maradiTC24 <- rast("tc231024.jpg")
+maradiTC24 <- rast("tc231024.jpg") # TC = True Color (bands R, G and B) 2024
 maradiTC24 <- flip(maradiTC24)
 plot(maradiTC24)
 
-
-maradiFC24 <-rast("fc231024.jpg")
+maradiFC24 <-rast("fc231024.jpg") # FC = False Color ((bands NIR, G and B) 2024
 maradiFC24 <- flip(maradiFC24)
 plot(maradiFC24)
-dev.off()
 
+# With the function par(mfro=c(2,2)) we put multiple plots in a single plotting window made of 2 rows and 2 columns
 par(mfrow=c(2,2))
 plot(maradiTC17,main="True color 2017")
 plot(maradiFC17,main="False color 2017")
 plot(maradiTC24,main="True color 2024")
 plot(maradiFC24,main="False color 2024")
+
 dev.off()
 
-CLASSIFY SU BANDA INTERA UNITA
+# To classify the objects and extract the most information, we need to combine the bands from the True Color and NIR from False Color images for the year 2017
+# Before, we assign to their relative objects the red, green and blue band from the True color and the NIR band for the False color
 
-bmR17<-maradiTC17[[1]]
-bmG17<-maradiTC17[[2]]
-bmB17<-maradiTC17[[3]]
-bmI17<-maradiFC17[[1]]
-bm17<-c(bmR17,bmG17, bmB17,bmI17)
+bmR17<-maradiTC17[[1]] # Red band 
+bmG17<-maradiTC17[[2]] # Green band
+bmB17<-maradiTC17[[3]] # Blue band
+bmI17<-maradiFC17[[1]] # NIR band 
+bm17<-c(bmR17,bmG17, bmB17,bmI17) # Putting all the bands together in one object 
+
+# We can classify this image and we specify the number of classes (or clusters) and we plot to see the result  
 Cbm17<-im.classify(bm17, num_clusters=2)
 plot(Cbm17)
+
+# We do the same thing for the year 2024
 
 bmR24<-maradiTC24[[1]]
 bmG24<-maradiTC24[[2]]
 bmB24<-maradiTC24[[3]]
 bmI24<-maradiFC24[[1]]
 bm24<-c(bmR24,bmG24, bmB24,bmI24)
+
+# Classify for the yea 2024 
 Cbm24<-im.classify(bm24, num_clusters=2)
 plot(Cbm24)
 
+# We use the function par(mfrow=c(2,2) to see the plots resulted from the classification in 2017 and 2024 in a single plotting window
+# Using the viridisc palette we can ensure a functional vision of the graphs for colorblind people
+
 cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100)
-par(mfrow=c(1,2))
+viridisc <- colorRampPalette(viridis(7))(255)
+par(mfrow=c(2,2))
 plot(Cbm17,col=cl)
+plot(Cbm17,col=viridisc)
 plot(Cbm24,col=cl)
+plot(Cbm24,col=viridisc)
+
 dev.off()
 
-combinazioni plotRGB
-im.plotRGB(bm17,r=4,g=2,b=3)
-im.plotRGB(bm17,r=1,g=4,b=3)
-im.plotRGB(bm17,r=1,g=2,b=4)
+# "Playing" with bands can be useful to see different things 
+im.plotRGB(bm17,r=4,g=2,b=3) # NIR on red -> enhancing vegetation features
+im.plotRGB(bm17,r=1,g=4,b=3) # NIR on green -> focusing on vegetation health
+im.plotRGB(bm17,r=1,g=2,b=4) # NIR on blue -> emphasizing surface reflectance properties
 
-im.plotRGB(bm24,r=4,g=2,b=3)
+im.plotRGB(bm24,r=4,g=2,b=3) 
 im.plotRGB(bm24,r=1,g=4,b=3)
 im.plotRGB(bm24,r=1,g=2,b=4)
 
-# calculate the amount of pixels
+# Calculate the amount of pixels (frequencies) with freq() function using the combined bands and the percentage of each class 
 f17 <- freq(Cbm17)
 tot17 <- ncell(Cbm17)
 p17 = f17*100/tot17
 p17
-class 1 agriculture = 33%
-class 2 city = 67%
+# Class 1 Restored land = 33%
+# Class 2 City and deserted areas = 67%
 
 f24 <- freq(Cbm24)
 tot24 <- ncell(Cbm24)
 p24 = f24*100/tot24
 p24
-class 1 agriculture = 36%
-class 2 city = 64%
+# Class 1 Restored land = 36%
+# Class 2 City and deserted areas = 64%
 
+# We can that 
 # building a dataframe
 y2017 <- c(33,66)
 y2024 <- c(36,63)
