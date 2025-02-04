@@ -193,63 +193,84 @@ dev.off()
 
 # Now we want to see the differences in NDVIs 
 # Positive values (> 0) are areas where NDVI increased from 2017 to 2024
-# Negative values (< 0) are areas where NDVI decreased from 2017 to 2024.
+# Negative values (< 0) are areas where NDVI decreased from 2017 to 2024
 
 Difndvi=ndvi2024-ndvi2017
 plot(Difndvi,col=cl1)
 plot(Difndvi,col=viridis(100))
 
-istogramma per vedere meglio
-
-library(RColorBrewer)
+# To observe the results in a better way, we can create a histogram with the function hist
 
 par(mfrow=c(1,2))
 ist17 <- hist(ndvi2017, main="NDVI 2017", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))
-ist24 <- hist(ndvi2024, main="NDVI 2024", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))  # Palette "Greens"
+ist24 <- hist(ndvi2024, main="NDVI 2024", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))  
+
+# histogram for colorblind people 
+par(mfrow=c(1,2))
+ist17 <- hist(ndvi2017, main="NDVI 2017 colorblind", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=viridis(5))
+ist24 <- hist(ndvi2024, main="NDVI 2024 colorblind", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=viridis(5))
+
 dev.off()
 
-# PCA Analysis for spatial variability
+# hist: create a histogram
+# main: sets the title
+# xlab: sets the x-axis label 
+# nclass: Defines the number of intervals (more intervals = more granularity)
+# freq=FALSE (F): displays density instead of raw counts (Density is useful when comparing histograms with different sample sizes)
+# ylim=c(0,5): limits the y-axis to a range of 0 to 5
+# col=brewer.pal(9, "Greens"): uses RColorBrewer to generate 9 shades of green from the "Greens" palette.
+
+# What can we observe? The NDVI values increased by 3% as we saw before in the classification
+# It doesn't seem much but the density and the health of the plants increased a lot
+
+# Now we do PCA Analysis for spatial variability
+# Function used is im.pca and we start with the year 2017
 
 pca17 <- im.pca(bm17)
 
-pca1 = 38.966791
-pca2 = 24.927165
-pca3 = 7.061764
-pca4 = 3.160646
+# pca1 = 38.966791
+# pca2 = 24.927165
+# pca3 = 7.061764
+# pca4 = 3.160646
+
+# I sum the main components of the 4 bands, one principal component for each band, then calculate the percentage of variability explained by the axes
 
 tot17 <- sum(38.966791, 24.927165, 7.061764, 3.160646)
-c(38.966791*100/tot17, 24.927165*100/tot17, 7.061764*100/tot17, 3.160646*100/tot17)
 
-52.575151,  33.632471,  9.527942,  4.264437 #variability explained by each axis
+38.966791*100/tot17 # 52.575151 variability explained by the first axis
+24.927165*100/tot17 # 33.632471 variability explained by the second axis
+7.061764*100/tot17 # 9.527942 variability explained by the third axis
+3.160646*100/tot17 # 4.264437 variability explained by the fourth axis
 
+# We combine the PCA1 and PCA2 together because they explain 86% of the total variability
 pc17c <- pca17[[1]] + pca17[[2]]
 pcsd17 <- focal(pc17c, matrix(1/9,3,3),fun=sd)
 
-do the same for 2024
+# focal() is a function that applies a local function to each pixel in a raster
+# matrix(1/9, 3, 3) creates a 3x3 matrix where each element is 1/9
+# fun=sd specifies the standard deviation applied to each pixel
+
+# We do the same processes for the year 2024
 
 pca24 <- im.pca(bm24)
 
-pca1 = 43.268299
-pca2 = 30.392128
-pca3 = 7.706479
-pca4 = 2.916731
+# pca1 = 43.268299
+# pca2 = 30.392128
+# pca3 = 7.706479
+# pca4 = 2.916731
 
 tot24 <- sum(43.268299, 30.392128, 7.706479, 2.916731)
-c(43.268299*100/tot24, 30.392128*100/tot24, 7.706479*100/tot24, 2.916731*100/tot24)
 
-51.336535, 36.059346,  9.143506,  3.460614
+43.268299*100/tot24 # 51.336535 variability explained by the first axis
+30.392128*100/tot24 # 36.059346 variability explained by the second axis
+7.706479*100/tot24 # 9.143506 variability explained by the third axis
+2.916731*100/tot24 # 3.460614 variability explained by the fourth axis
 
-pc24c <- pca24[[1]] + pca24[[2]]
+pc24c <- pca24[[1]] + pca24[[2]] # 87% of variability explained
 pcsd24 <- focal(pc24c, matrix(1/9,3,3),fun=sd)
 
-# results in a multiframe
+# Now we can see the results in a multiframe
+# There are some appreciable differences
 par(mfrow=c(1,2))
-plot(pcsd17, col=viridisc)
-plot(pcsd24, col=viridisc)
-
-correlazione informazioni
-
-pairs(bandamaradi17)
-pairs(bandamaradi24)
-
-
+plot(pcsd17, col=viridis(100))
+plot(pcsd24, col=viridis(100))
