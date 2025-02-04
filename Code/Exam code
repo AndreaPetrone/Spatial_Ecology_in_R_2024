@@ -163,6 +163,7 @@ M1cb/M2cb
 cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100) # To appreciate better the DVI and NDVI 
 
 # The DVI is calculated this way: DVI = NIR - red -> We extrapolate the the NIR and red band # DVI for the year 2017 and 2024
+# the formula refers to a pixel subtraction
 
 dvi2017<-bm17[[4]]-bm17[[1]]
 dvi2024<-bm24[[4]]-bm24[[1]]
@@ -190,7 +191,9 @@ plot(ndvi2024,col=viridis(100), main="NDVI 2024 (colorblind)")
 
 dev.off()
 
-# Now we want to see the differences in NDVIs from the two year 2017 vs 2024
+# Now we want to see the differences in NDVIs 
+# Positive values (> 0) are areas where NDVI increased from 2017 to 2024
+# Negative values (< 0) are areas where NDVI decreased from 2017 to 2024.
 
 Difndvi=ndvi2024-ndvi2017
 plot(Difndvi,col=cl1)
