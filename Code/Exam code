@@ -1,7 +1,7 @@
 # R project focussing on temporal analysis of Farmer-Managed Natural Regeneration (FMNR) by The Great Green Wall project in Maradi city, in Africa.
 
 # Install the following packages using the install.packages() function. The packages should be enclosed in quotation marks.
-install.packages(c("terra","ggplot2","patchwork","viridis","rasterdiv","devtools","RcolorBrewer")
+install.packages(c("terra","ggplot2","patchwork","viridis","rasterdiv","devtools","RColorBrewer")
 
 # Install imageRy from GitHub
 install_github("ducciorocchini/imageRy")
@@ -13,7 +13,7 @@ library(patchwork) # Used for combining multiple graphs into a single plot
 library(viridis) # Used for color palettes that are uniform and colorblind-friendly
 library(devtools) # Used for developing, installing, and managing R packages
 library(imageRy) # Used for handling raster images
-library(RcolorBrewer) # Used for creating color palettes, specially for data visualisation
+library(RColorBrewer) # Used for creating color palettes, specially for data visualisation
 
 # Function setwd() used to set the correct directory, it is needed to import images from you files
 setwd("C:/Users/Utente/Desktop/spatial ecology")
@@ -71,20 +71,23 @@ bmB24<-maradiTC24[[3]]
 bmI24<-maradiFC24[[1]]
 bm24<-c(bmR24,bmG24, bmB24,bmI24)
 
-# Classify for the yea 2024 
+# Classify for the year 2024 
 Cbm24<-im.classify(bm24, num_clusters=2)
 plot(Cbm24)
 
 # We use the function par(mfrow=c(2,2) to see the plots resulted from the classification in 2017 and 2024 in a single plotting window
 # Using the viridisc palette we can ensure a functional vision of the graphs for colorblind people
 
-cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100)
-viridisc <- colorRampPalette(viridis(7))(255)
+# Define colors for two classes
+viridis_two <- viridis(2)  # This generates two colorblind-friendly colors
+cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100) 
+
 par(mfrow=c(2,2))
 plot(Cbm17,col=cl)
-plot(Cbm17,col=viridisc)
+plot(Cbm17,col= magma(2))
 plot(Cbm24,col=cl)
-plot(Cbm24,col=viridisc)
+plot(Cbm24,col= magma(2))
+
 
 dev.off()
 
@@ -149,7 +152,6 @@ CALCOLO DVI E NDVI
 
 cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100)
 
-viridisc <- colorRampPalette(viridis(7))(255)
 
 dvi2017<-bm17[[4]]-bm17[[1]]
 plot(dvi2017)
@@ -178,6 +180,7 @@ dev.off()
 
 differenze NDVI
 
+viridisc <- colorRampPalette(viridis(7))(255)
 Difndvi=ndvi2024-ndvi2017
 plot(Difndvi,col=cl1)
 plot(Difndvi,col=viridisc)
