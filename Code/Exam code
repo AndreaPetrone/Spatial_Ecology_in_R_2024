@@ -79,15 +79,13 @@ plot(Cbm24)
 # Using the viridisc palette we can ensure a functional vision of the graphs for colorblind people
 
 # Define colors for two classes
-viridis_two <- viridis(2)  # This generates two colorblind-friendly colors
 cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100) 
 
 par(mfrow=c(2,2))
 plot(Cbm17,col=cl)
-plot(Cbm17,col= magma(2))
+plot(Cbm17,col= magma(2)) # This generates two colorblind-friendly colors
 plot(Cbm24,col=cl)
 plot(Cbm24,col= magma(2))
-
 
 dev.off()
 
@@ -115,75 +113,88 @@ p24
 # Class 1 Restored land = 36%
 # Class 2 City and deserted areas = 64%
 
-# We can that 
-# building a dataframe
+# We can see from the results that the restored land is increased by 3% 
+
+# Building a dataframe allows us to see the classes and their percentages for 2017 and 2024
+# First, we assign the percentages of each year to the object (the year), we assign the names of the classes to the other object and we create the dataframe with the function data.frame
 y2017 <- c(33,66)
 y2024 <- c(36,63)
-classM <- c("Agriculture", "Human")
-group <- data.frame(classM,y2017,y2024)
-group
+classes <- c("Restored land", "City and deserted areas")
+dataM <- data.frame(classes,y2017,y2024)
+dataM
 
-M1 <- ggplot(group, aes(x=classM, y=y2017, fill=classM, color=classM)) +
-  geom_bar(stat="identity") +
-  scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
-  scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
-  ylim(c(0, 100))
-M1
+# We can plot the graphs using the function ggplot from the package ggplot2
 
-M2 <- ggplot(group, aes(x=classM, y=y2024, fill=classM, color=classM)) +
-  geom_bar(stat="identity") +
-  scale_fill_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
-  scale_color_manual(values=c("Agriculture"="forestgreen", "Human"="palegoldenrod")) +
-  ylim(c(0, 100))
-M2
+M1 <- ggplot(dataM, aes(x=classes, y=y2017, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_manual(values=c("Restored land"="forestgreen", "City and deserted areas"="palegoldenrod")) + scale_color_manual(values=c("Restored land"="forestgreen", "City and deserted areas"="palegoldenrod")) + ylim(c(0, 100))
 
+M2 <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_manual(values=c("Restored land"="forestgreen", "City and deserted areas"="palegoldenrod")) + scale_color_manual(values=c("Restored land"="forestgreen", "City and deserted areas"="palegoldenrod")) + ylim(c(0, 100))
+
+# ggplot: initializes the plot with dataM as the dataset
+# aes: for aesthetic of the plot
+# x=classes: Categories for the x-axis
+# y=y2017: values for the y-axis
+# fill=classes: fills bars based on the class
+# color=classes: colors the border of bars based on the class.
+# geom_bar(): adds a bar plot layer
+# stat="identity": uses actual values from y2017 and 2024 (data used as they are)
+# scale_fill_manual(): manually assigns colors to the bars based on classM
+# scale_color_manual: manually assigns border colors for the bars
+# the choiche of colors reflect those used in classification for coherence
+# ylim(c(0, 100)): sets the y-axis range from 0 to 100.
+
+# We combine the graph of the two years together, with "+" we see them close to each other, with the "/" we see them on top of each other
 M1+M2
 M1/M2
 
-Riassunto degli argomenti chiave:
-fill: Cambia il colore del riempimento delle barre.
-color: Cambia il colore del bordo delle barre.
-scale_fill_manual(): Personalizza i colori del riempimento.
-scale_color_manual(): Personalizza i colori del bordo.
+# We create the same graphs but this time for colorblind 
 
-La banda nir aggiunta rende più visibile la presenza di vegetazione andando a ridurre le differenze tra i due anni; probabilmente un'area più piccola avrebbe mostrato differenze maggiori.
+M1cb <- ggplot(dataM, aes(x=classes, y=y2017, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="magma") + scale_color_viridis_d(option="magma") + ylim(c(0, 100))
 
-CALCOLO DVI E NDVI
+M2cb <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="magma") + scale_color_viridis_d(option="magma") + ylim(c(0, 100))
 
-cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100)
+# scale_fill_viridis_d(option="magma"): fills bars using the magma Viridis palette.
+# scale_color_viridis_d(option="magma"): colors bar borders using the same palette.
 
+M1cb+M2cb
+M1cb/M2cb
+
+# Now to really see what changed over the years in term of vegetation health and density, we're going to calculate the DVI (Difference Vegetation Index) and then the NDVI (Normalized Difference Vegetation Index)
+
+cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100) # To appreciate better the DVI and NDVI 
+
+# The DVI is calculated this way: DVI = NIR - red -> We extrapolate the the NIR and red band # DVI for the year 2017 and 2024
 
 dvi2017<-bm17[[4]]-bm17[[1]]
-plot(dvi2017)
-plot(dvi2017,col=cl1)
-
 dvi2024<-bm24[[4]]-bm24[[1]]
-plot(dvi2024)
-plot(dvi2024,col=cl1)
+par(mfrow=c(2,2))
+plot(dvi2017,col=cl1, main="DVI 2017")
+plot(dvi2017,col=viridis(100), main="DVI 2017")
+plot(dvi2024,col=cl1, main="DVI 2024")
+plot(dvi2024,col=viridis(100), main="DVI 2024")
+
+# Now we calculate NDVI with this formula: dvi / (NIR + Red)
 
 ndvi2017 = dvi2017/(bm17[[4]]+bm17[[1]])
-plot(ndvi2017)
-plot(dvi2017,col=viridisc)
+plot(ndvi2017,col=cl1, main="NDVI 2017")
+plot(ndvi2017,col=viridis(100), main="NDVI 2017 (colorblind)")
 
 ndvi2024 = dvi2024/(bm24[[4]]+bm24[[1]])
-plot(ndvi2024)
-plot(ndvi2024,col=viridisc)
-
-NDVI grafiche con viridis per colorblind
+plot(ndvi2024,col=cl1,main="NDVI 2024")
+plot(ndvi2024,col=viridis(100), main="NDVI 2024 (colorblind)")
 
 par(mfrow=c(2,2))
-plot(ndvi2017,col=cl1)
-plot(ndvi2017,col=viridisc)
-plot(ndvi2024,col=cl1)
-plot(ndvi2024,col=viridisc)
+plot(ndvi2017,col=cl1, main="NDVI 2017")
+plot(ndvi2017,col=viridis(100), main="NDVI 2017 (colorblind)")
+plot(ndvi2024,col=cl1, main="NDVI 2024")
+plot(ndvi2024,col=viridis(100), main="NDVI 2024 (colorblind)")
+
 dev.off()
 
-differenze NDVI
+# Now we want to see the differences in NDVIs from the two year 2017 vs 2024
 
-viridisc <- colorRampPalette(viridis(7))(255)
 Difndvi=ndvi2024-ndvi2017
 plot(Difndvi,col=cl1)
-plot(Difndvi,col=viridisc)
+plot(Difndvi,col=viridis(100))
 
 istogramma per vedere meglio
 
