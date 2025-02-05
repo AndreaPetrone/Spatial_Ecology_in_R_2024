@@ -1,6 +1,4 @@
-#27/11 
-#We use Copernicus today 
-# Time series analysis
+# We use Copernicus today 
 
 library(terra)
 library(imageRy)
@@ -9,19 +7,21 @@ library(imageRy)
 im.list()
 
 #One dataset = EN01 let's import
-EN01 <- im.import("EN_01.png") #3 layers in RGB, colorblind people don't see that, you can see parts of Europe (no human activities during the lockdown )
+EN01 <- im.import("EN_01.png") 
 EN01
 
-#Let's import also the EN13 (March) look this: on this case it's completely different u can see there was a big decrease during the stop (industries, traffic ecc)
+# Let's import also the EN13 (March) 
+# big decrease during the stop (industries, traffic ecc)
+
 EN13 <- im.import("EN_13.png")
 EN13
 
-#Make a multiframe
+# Make a multiframe
 par(mfrow=c(1,2))
 plot(EN01)
 plot(EN13)
 
-#Now we see the difference 
+# Now we see the difference 
 # Differencing images in time
 DifEN = EN01[[1]] - EN13[[1]] 
 plot(DifEN)
@@ -30,22 +30,24 @@ dev.off()
 # Example 2: ice melt in Greenland 
 # Importing several data together
 
-greenl <- im.import("greenland")  #per importare tutti i file greenland insieme 
+greenl <- im.import("greenland")  # to import everything together
 greenl
 plot(greenl[[1]])
 plot(greenl[[4]])
 
-#Exercise: plot in a multiframe the first and the last elements of greenl
+# Exercise: plot in a multiframe the first and the last elements of greenl
 par(mfrow=c(1,2))
-plot(greenl[[1]]) #low temperature ai bordi 
-plot(greenl[[4]]) #low temperature on the central part (not melting)
+plot(greenl[[1]]) # low temperature ai bordi 
+plot(greenl[[4]]) # low temperature on the central part (not melting)
 
-#Let's see the difference 
+# Let's see the difference 
 difgreenl <- greenl[[1]] - greenl[[4]]
 plot(difgreenl) 
 dev.off()
 
-#Exercise: compose a RGB image with the years of the Greenland temperature
+# Exercise: compose a RGB image with the years of the Greenland temperature
+
 im.plotRGB(green1, r=1, g=2, b=4)
-#green: 2000, 2005, 2010, 2015
-#most of the blue area : high temperature 
+
+# green: 2000, 2005, 2010, 2015
+# most of the blue area : high temperature 
