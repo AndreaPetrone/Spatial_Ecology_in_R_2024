@@ -30,15 +30,15 @@ maradiTC17<-flip(maradiTC17) # TC = True Color (bands R, G and B) 2017
 plot(maradiTC17)
 
 maradiFC17 <-rast("fc251017.jpg") # FC = False Color (bands NIR, G and B) 2017
-maradiFC17 <- flip(maradiFC17)
+maradiFC17 <-flip(maradiFC17)
 plot(maradiFC17)
 
-maradiTC24 <- rast("tc231024.jpg") 
-maradiTC24 <- flip(maradiTC24)
+maradiTC24 <-rast("tc231024.jpg") 
+maradiTC24 <-flip(maradiTC24)
 plot(maradiTC24)
 
 maradiFC24 <-rast("fc231024.jpg") 
-maradiFC24 <- flip(maradiFC24)
+maradiFC24 <-flip(maradiFC24)
 plot(maradiFC24)
 
 # With the function par(mfro=c(2,2)) we put multiple plots in a single plotting window made of 2 rows and 2 columns
