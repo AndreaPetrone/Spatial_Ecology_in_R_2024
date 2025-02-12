@@ -1,0 +1,271 @@
+\documentclass{beamer}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+
+\usetheme{Frankfurt}
+\usecolortheme{spruce}
+
+
+\title{\small TEMPORAL ANALYSIS OF FMNR BY THE GREAT GREEN WALL PROJECT IN MARADI CITY}
+\institute{
+\vspace{-1cm}
+\begin{figure}
+            \centering
+            \includegraphics[width=0.4\linewidth]{maradi1.PNG}
+            \label{fig:enter-label}
+        \end{figure}
+       \\Andrea Petrone
+       \\A.Y. 2024-2025
+    }
+    \date{}
+\begin{document}
+
+\maketitle
+
+\AtBeginSection[]
+    {
+    \begin{frame}
+    \frametitle{Summary}
+    \tableofcontents[currentsection]
+    \end{frame}
+    }
+
+\section{Project}
+
+\begin{frame}{The Great Green Wall}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{ggw.PNG}
+    \caption{Extension of the Great Green Wall}
+    \label{fig:enter-label}
+\end{figure}
+\vspace{-0.4cm}
+     \begin{itemize}
+        \item The Great Green Wall is an African-led movement.
+        \item The objective is to restore 8,000 km of degraded land.
+        \item It aims to tackle climate change, drought, famine, conflict, and migration.
+    \end{itemize}    
+\end{frame}
+
+\section{Area studied}
+
+\begin{frame}{Maradi}
+       \begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{honc231024.jpg}
+\vspace{-0.3cm}
+    \caption{Maradi 2024}
+    \label{fig:enter-label}
+\end{figure}
+
+\vspace{-0.5cm}
+    
+\begin{itemize}
+    \item The third largest city in Niger
+    \item The area is critically affected by desertification
+    \item Farmer-Managed Natural Regeneration (FMNR) 
+\end{itemize}
+    
+\end{frame}
+
+\section{Objective}
+
+\begin{frame}{Objective}
+
+The objective of this presentation is to compare the effects of Farmer-Managed Natural Regeneration between 2017 and 2024 using Copernicus Sentinel-2 imagery using R analysis.
+    
+\end{frame}
+
+\section{Packages used}
+\begin{frame}{Packages used}
+    \begin{itemize}
+    
+    \item library(terra)
+    \item library(ggplot2)
+    \item library(patchwork)
+    \item library(viridis)
+    \item library(devtools)
+    \item library(imageRy)
+    \item library(RColorBrewer)
+
+\end{itemize}
+\end{frame}
+
+\section{Methods}
+\begin{frame}{Images used}
+\begin{itemize}
+    \item Four images were downloaded from Copernicus Sentinel-2
+    \item Two images from 2017 and two from 2024
+    \item The two images are True Color and False Color 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Import}
+The images were imported from an external source using the \texttt{rast()} function from the terra package, loaded, and assigned to an object.
+
+    \lstinputlisting[basicstyle=\ttfamily\small,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{imported pictures.R}  
+
+\end{frame}
+
+\begin{frame}{Multiframe}
+    Let's plot all the images together
+
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{plot.R}  
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{plotTCFC.PNG}
+    \label{fig:enter-label}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Images classification}
+  We need to combine the True Color and NIR bands from the 2017 and 2024 images to classify. \\ Before, we assign the red, green, blue, and NIR bands to their respective objects.
+  \\ We use the im.classify() function from the imageRy package and declare the image and the number of clusters, in this case 2.
+
+  \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{assign.R}  
+
+\end{frame}
+
+\begin{frame}{}
+Now, we want to plot everything in a multiframe that is accessible for colorblind individuals also.
+    
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{classify.R}  
+
+\vspace{-0.3cm}
+  
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{classification.PNG}
+        \label{fig:enter-label}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}{Frequencies and percentages}
+    Let's calculate the frequencies and get the percentage of the two classes by using the combined bands from 2017 and 2024
+   
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{Frequencies.R}
+
+    We can say that only 3\% of the area was restored from 2017 to 2024.
+    \\ It doesn't seem much, right? Let's not jump to conclusions.
+\end{frame}
+
+\begin{frame}{Code for dataframe}
+    Now, it's time to create a dataframe with the percentages we got before. \\ To do that, we assign the percentages of each year to the object (the year), we assign the names of the classes to the other object (classes).
+  
+  \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{classes.R}
+
+\end{frame}
+
+\begin{frame}{Code for graphs}
+    Then, we create a plot using the ggplot() function from the ggplot2 package to compare the class distribution of the two images.
+    
+     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{graphs.R}
+
+\end{frame}
+
+\begin{frame}{Graphs} 
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{classes.PNG}
+    \caption{Classes percentages from 2017 and 2024}
+    \label{fig:enter-label}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Graphs for colorblind}
+\begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{classescolorblind.PNG}
+        \caption{Classes percentages from 2017 and 2024 for colorblind people}
+        \label{fig:enter-label}
+        \end{figure}
+\end{frame}
+
+\begin{frame}{DVI and NDVI analysis}
+    It is time to see what has changed over the years in terms of vegetation health and density, we are going to calculate the DVI (Difference Vegetation Index) and then the NDVI (Normalized Difference Vegetation Index).
+
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{dvindvi.R}
+\end{frame}
+
+\begin{frame}{DVI multiframe}
+We plot the result from the DVI analysis in a multiframe, also accessible to colorblind people with the viridis palette.
+
+  \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{plot dvi.R}
+\vspace{-0.3cm}
+   \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{dvi.PNG}
+        \label{fig:enter-label}
+    \end{figure} 
+\end{frame}
+
+\begin{frame}{NDVI multiframe}
+We plot the result of the NDVI analysis.
+
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{plot ndvi.R}
+\vspace{-0.3cm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{ndvi.PNG}
+        \label{fig:enter-label}
+    \end{figure}
+    
+\end{frame}
+
+\begin{frame}{NDVI differences}
+    \begin{itemize}
+        \item Positive values ($> 0$) are areas where NDVI increased from 2017 to 2024
+        \item Negative values ($< 0$) are areas where NDVI decreased from 2017 to 2024
+    \end{itemize}
+
+     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{ndvidiff.R}
+\vspace{-0.3cm}
+     \begin{figure}
+         \centering
+         \includegraphics[width=0.8\linewidth]{ndvidiff.PNG}
+         \label{fig:enter-label}
+     \end{figure}
+     
+\end{frame}
+
+\begin{frame}{Histograms }
+We can visualize the results of the NDVI analysis using histograms for the years 2017 and 2024.
+
+     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{histocode.R}
+\vspace{-0.3cm}
+     \begin{figure}
+         \centering
+         \includegraphics[width=0.8\linewidth]{istondvi.PNG}
+         \label{fig:enter-label}
+     \end{figure}
+
+\end{frame}
+
+\begin{frame}{}
+Histograms for colorblind people 
+
+    \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{histocodecb.R}
+ \vspace{-0.3cm}
+ \begin{figure}
+     \centering
+     \includegraphics[width=0.8\linewidth]{istocbndvi.PNG}
+     \label{fig:enter-label}
+ \end{figure}
+\end{frame}
+
+\begin{frame}{PCA Analysis}
+    \begin{enumerate}
+        \item We analyze the PCA for the year 2017. 
+        \item We use the function im.pca and we get the variability that each axis explains
+        \item We combine the PCA1 and PCA2 together because they explain 86\% of the total variability
+        \item Now we can calculate the standard deviation with the function focal
+    \end{enumerate}
+
+ \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{Pca17.R}
+\end{frame}
+\end{document}
