@@ -1,4 +1,4 @@
-# R project focussing on temporal analysis of Farmer-Managed Natural Regeneration (FMNR) by The Great Green Wall project in Maradi city, in Africa.
+# R project focussing on temporal analysis of Farmer-Managed Natural Regeneration (FMNR) by The Great Green Wall project in Maradi city, Africa.
 
 # Install the following packages using the install.packages() function. The packages should be enclosed in quotation marks.
 install.packages(c("terra","ggplot2","patchwork","viridis","rasterdiv","devtools","RColorBrewer")
@@ -22,22 +22,22 @@ setwd("C:/Users/Utente/Desktop/spatial ecology")
 getwd()
 "C:/Users/Utente/Desktop/spatial ecology"
 
-# Now let's import all the images of Maradi city from 2017 and 2024 downloaded from Copernicus Sentinel 2, assign them to objects and plot them to ensure the image is the chosen one
+# Now let's import all the images of Maradi city from 2017 and 2024 downloaded from Copernicus Sentinel 2, assign them to objects and plot them 
 # The function used is rast() and it comes from the package "terra"
 
 maradiTC17<-rast("tc251017.jpg")
 maradiTC17<-flip(maradiTC17) # TC = True Color (bands R, G and B) 2017
 plot(maradiTC17)
 
-maradiFC17 <-rast("fc251017.jpg") # FC = False Color ((bands NIR, G and B) 2017
+maradiFC17 <-rast("fc251017.jpg") # FC = False Color (bands NIR, G and B) 2017
 maradiFC17 <- flip(maradiFC17)
 plot(maradiFC17)
 
-maradiTC24 <- rast("tc231024.jpg") # TC = True Color (bands R, G and B) 2024
+maradiTC24 <- rast("tc231024.jpg") 
 maradiTC24 <- flip(maradiTC24)
 plot(maradiTC24)
 
-maradiFC24 <-rast("fc231024.jpg") # FC = False Color ((bands NIR, G and B) 2024
+maradiFC24 <-rast("fc231024.jpg") 
 maradiFC24 <- flip(maradiFC24)
 plot(maradiFC24)
 
@@ -50,8 +50,8 @@ plot(maradiFC24,main="False color 2024")
 
 dev.off()
 
-# To classify the objects and extract the most information, we need to combine the bands from the True Color and NIR from False Color images for the year 2017
-# Before, we assign to their relative objects the red, green and blue band from the True color and the NIR band for the False color
+# To classify the objects and extract most of the information, we need to combine the bands from the True Color and NIR from False Color images for the year 2017
+# Before, we assign to their relative objects the red, green, blue and nir bands 
 
 bmR17<-maradiTC17[[1]] # Red band 
 bmG17<-maradiTC17[[2]] # Green band
@@ -76,16 +76,16 @@ Cbm24<-im.classify(bm24, num_clusters=2)
 plot(Cbm24)
 
 # We use the function par(mfrow=c(2,2) to see the plots resulted from the classification in 2017 and 2024 in a single plotting window
-# Using the viridisc palette we can ensure a functional vision of the graphs for colorblind people
+# Using the viridis palette we can ensure a functional vision of the graphs for colorblind people
 
 # Define colors for two classes
 cl <- colorRampPalette(c("forestgreen","palegoldenrod")) (100) 
 
 par(mfrow=c(2,2))
-plot(Cbm17,col=cl)
-plot(Cbm17,col= magma(2)) # This generates two colorblind-friendly colors
-plot(Cbm24,col=cl)
-plot(Cbm24,col= magma(2))
+plot(Cbm17,col=cl, main="2017")
+plot(Cbm17,col= viridis(2), main="2017 colorblind") # This generates two colorblind-friendly colors
+plot(Cbm24,col=cl, main="2024")
+plot(Cbm24,col= viridis(2), main="2024 colorblind")
 
 dev.off()
 
@@ -98,15 +98,15 @@ im.plotRGB(bm24,r=4,g=2,b=3)
 im.plotRGB(bm24,r=1,g=4,b=3)
 im.plotRGB(bm24,r=1,g=2,b=4)
 
-# Calculate the amount of pixels (frequencies) with freq() function using the combined bands and the percentage of each class 
+# Calculate the amount of pixels (frequencies) with freq() function using the combined bands and get the percentage of each class 
 f17 <- freq(Cbm17)
-tot17 <- ncell(Cbm17)
+tot17 <- ncell(Cbm17)  # Total cells in the raster
 p17 = f17*100/tot17
 p17
 # Class 1 Restored land = 33%
 # Class 2 City and deserted areas = 67%
 
-f24 <- freq(Cbm24)
+f24 <- freq(Cbm24) 
 tot24 <- ncell(Cbm24)
 p24 = f24*100/tot24
 p24
@@ -116,9 +116,9 @@ p24
 # We can see from the results that the restored land is increased by 3% 
 
 # Building a dataframe allows us to see the classes and their percentages for 2017 and 2024
-# First, we assign the percentages of each year to the object (the year), we assign the names of the classes to the other object and we create the dataframe with the function data.frame
-y2017 <- c(33,66)
-y2024 <- c(36,63)
+# First, we assign the percentages of each year to the object (the year), we assign the names of the classes to the other object (classes) and we create the dataframe with the function data.frame
+y2017 <- c(33,67)
+y2024 <- c(36,64)
 classes <- c("Restored land", "City and deserted areas")
 dataM <- data.frame(classes,y2017,y2024)
 dataM
@@ -134,11 +134,11 @@ M2 <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom
 # x=classes: Categories for the x-axis
 # y=y2017: values for the y-axis
 # fill=classes: fills bars based on the class
-# color=classes: colors the border of bars based on the class.
+# color=classes: colors the border of bars based on the class
 # geom_bar(): adds a bar plot layer
-# stat="identity": uses actual values from y2017 and 2024 (data used as they are)
+# stat="identity": uses actual values from y2017 and 2024 
 # scale_fill_manual(): manually assigns colors to the bars based on classM
-# scale_color_manual: manually assigns border colors for the bars
+# scale_color_manual(): manually assigns border colors for the bars
 # the choiche of colors reflect those used in classification for coherence
 # ylim(c(0, 100)): sets the y-axis range from 0 to 100.
 
@@ -148,12 +148,11 @@ M1/M2
 
 # We create the same graphs but this time for colorblind 
 
-M1cb <- ggplot(dataM, aes(x=classes, y=y2017, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="magma") + scale_color_viridis_d(option="magma") + ylim(c(0, 100))
+M1cb <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="D") + scale_color_viridis_d(option="D") +  ylim(c(0, 100))
 
-M2cb <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="magma") + scale_color_viridis_d(option="magma") + ylim(c(0, 100))
+M2cb <- ggplot(dataM, aes(x=classes, y=y2024, fill=classes, color=classes)) + geom_bar(stat="identity") + scale_fill_viridis_d(option="D") + scale_color_viridis_d(option="D") + ylim(c(0, 100))
 
-# scale_fill_viridis_d(option="magma"): fills bars using the magma Viridis palette.
-# scale_color_viridis_d(option="magma"): colors bar borders using the same palette.
+# scale_fill_viridis_d(option="D"): "D" default for viridis, "_d" is for discrete variables like classes
 
 M1cb+M2cb
 M1cb/M2cb
@@ -162,8 +161,9 @@ M1cb/M2cb
 
 cl1 <- colorRampPalette(c("blue", "grey", "palegoldenrod", "#228B22", "darkgreen"))(100) # To appreciate better the DVI and NDVI 
 
-# The DVI is calculated this way: DVI = NIR - red -> We extrapolate the the NIR and red band # DVI for the year 2017 and 2024
-# the formula refers to a pixel subtraction
+# The DVI is calculated this way: DVI = NIR - red -> We extrapolate the the NIR and red band 
+# The formula refers to a pixel subtraction
+# DVI for the year 2017 and 2024
 
 dvi2017<-bm17[[4]]-bm17[[1]]
 dvi2024<-bm24[[4]]-bm24[[1]]
@@ -172,6 +172,8 @@ plot(dvi2017,col=cl1, main="DVI 2017")
 plot(dvi2017,col=viridis(100), main="DVI 2017")
 plot(dvi2024,col=cl1, main="DVI 2024")
 plot(dvi2024,col=viridis(100), main="DVI 2024")
+
+dev.off()
 
 # Now we calculate NDVI with this formula: dvi / (NIR + Red)
 
@@ -196,8 +198,9 @@ dev.off()
 # Negative values (< 0) are areas where NDVI decreased from 2017 to 2024
 
 Difndvi=ndvi2024-ndvi2017
-plot(Difndvi,col=cl1)
-plot(Difndvi,col=viridis(100))
+par(mfrow=c(1,2))
+plot(Difndvi,col=cl1, main="NDVI difference")
+plot(Difndvi,col=viridis(100), main="NDVI difference colorblind")
 
 # To observe the results in a better way, we can create a histogram with the function hist
 
@@ -206,6 +209,7 @@ ist17 <- hist(ndvi2017, main="NDVI 2017", xlab="NDVI", nclass=20, freq=F, ylim=c
 ist24 <- hist(ndvi2024, main="NDVI 2024", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=brewer.pal(9, "Greens"))  
 
 # histogram for colorblind people 
+
 par(mfrow=c(1,2))
 ist17 <- hist(ndvi2017, main="NDVI 2017 colorblind", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=viridis(5))
 ist24 <- hist(ndvi2024, main="NDVI 2024 colorblind", xlab="NDVI", nclass=20, freq=F, ylim=c(0,5), col=viridis(5))
@@ -216,12 +220,11 @@ dev.off()
 # main: sets the title
 # xlab: sets the x-axis label 
 # nclass: Defines the number of intervals (more intervals = more granularity)
-# freq=FALSE (F): displays density instead of raw counts (Density is useful when comparing histograms with different sample sizes)
+# freq=FALSE (F): shows the normalised values in form of density to make comparisons 
 # ylim=c(0,5): limits the y-axis to a range of 0 to 5
 # col=brewer.pal(9, "Greens"): uses RColorBrewer to generate 9 shades of green from the "Greens" palette.
 
-# What can we observe? The NDVI values increased by 3% as we saw before in the classification
-# It doesn't seem much but the density and the health of the plants increased a lot
+# The 2024 histogram suggests a slight shift of NDVI values towards the positive, indicating a possible improvement in vegetation or a change in environmental conditions compared to 2017
 
 # Now we do PCA Analysis for spatial variability
 # Function used is im.pca and we start with the year 2017
@@ -235,12 +238,12 @@ pca17 <- im.pca(bm17)
 
 # I sum the main components of the 4 bands, one principal component for each band, then calculate the percentage of variability explained by the axes
 
-tot17 <- sum(38.966791, 24.927165, 7.061764, 3.160646)
+tot17pca <- sum(38.966791, 24.927165, 7.061764, 3.160646)
 
-38.966791*100/tot17 # 52.575151 variability explained by the first axis
-24.927165*100/tot17 # 33.632471 variability explained by the second axis
-7.061764*100/tot17 # 9.527942 variability explained by the third axis
-3.160646*100/tot17 # 4.264437 variability explained by the fourth axis
+38.966791*100/tot17pca # 52.575151 variability explained by the first axis
+24.927165*100/tot17pca # 33.632471 variability explained by the second axis
+7.061764*100/tot17pca # 9.527942 variability explained by the third axis
+3.160646*100/tot17pca # 4.264437 variability explained by the fourth axis
 
 # We combine the PCA1 and PCA2 together because they explain 86% of the total variability
 pc17c <- pca17[[1]] + pca17[[2]]
@@ -254,23 +257,23 @@ pcsd17 <- focal(pc17c, matrix(1/9,3,3),fun=sd)
 
 pca24 <- im.pca(bm24)
 
-# pca1 = 43.268299
-# pca2 = 30.392128
-# pca3 = 7.706479
-# pca4 = 2.916731
+# pca1 = 49.521251
+# pca2 = 30.357348
+# pca3 = 7.712667
+# pca4 = 3.188850
 
-tot24 <- sum(43.268299, 30.392128, 7.706479, 2.916731)
+tot24pca <- sum(49.521251, 30.357348, 7.712667, 3.188850)
 
-43.268299*100/tot24 # 51.336535 variability explained by the first axis
-30.392128*100/tot24 # 36.059346 variability explained by the second axis
-7.706479*100/tot24 # 9.143506 variability explained by the third axis
-2.916731*100/tot24 # 3.460614 variability explained by the fourth axis
+49.521251*100/tot24pca # 54.55077 variability explained by the first axis
+30.357348*100/tot24pca # 33.44053 variability explained by the second axis
+7.712667*100/tot24pca # 8.495987 variability explained by the third axis
+3.188850*100/tot24pca # 3.512719 variability explained by the fourth axis
 
-pc24c <- pca24[[1]] + pca24[[2]] # 87% of variability explained
+pc24c <- pca24[[1]] + pca24[[2]] # 88% of variability explained
 pcsd24 <- focal(pc24c, matrix(1/9,3,3),fun=sd)
 
 # Now we can see the results in a multiframe
 # There are some appreciable differences
 par(mfrow=c(1,2))
-plot(pcsd17, col=viridis(100))
+plot(pcsd17, col=viridis(100), main=")
 plot(pcsd24, col=viridis(100))
