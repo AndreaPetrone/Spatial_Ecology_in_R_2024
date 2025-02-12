@@ -75,7 +75,7 @@
 
 \begin{frame}{Objective}
 
-The objective of this presentation is to compare the effects of Farmer-Managed Natural Regeneration between 2017 and 2024 using Copernicus Sentinel-2 imagery using R analysis.
+The objective of this presentation is to compare the effects of Farmer-Managed Natural Regeneration between 2017 and 2024 using Copernicus Sentinel-2 imagery and R analysis for Maradi city, to assess the strength and importance of the project.
     
 \end{frame}
 
@@ -111,10 +111,10 @@ The images were imported from an external source using the \texttt{rast()} funct
 \end{frame}
 
 \begin{frame}{Multiframe}
-    Let's plot all the images together
+    Let's plot all the images together.
 
     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{plot.R}  
-
+\vspace{-0.3cm}
 \begin{figure}
     \centering
     \includegraphics[width=0.6\linewidth]{plotTCFC.PNG}
@@ -131,7 +131,7 @@ The images were imported from an external source using the \texttt{rast()} funct
 \end{frame}
 
 \begin{frame}{}
-Now, we want to plot everything in a multiframe that is accessible for colorblind individuals also.
+Now, we want to plot everything in a multiframe that is also accessible to colorblind individuals.
     
     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{classify.R}  
 
@@ -146,7 +146,7 @@ Now, we want to plot everything in a multiframe that is accessible for colorblin
 \end{frame}
 
 \begin{frame}{Frequencies and percentages}
-    Let's calculate the frequencies and get the percentage of the two classes by using the combined bands from 2017 and 2024
+   Let's calculate the frequencies and determine the percentage of the two classes using the combined bands from 2017 and 2024.
    
     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{Frequencies.R}
 
@@ -187,7 +187,7 @@ Now, we want to plot everything in a multiframe that is accessible for colorblin
 \end{frame}
 
 \begin{frame}{DVI and NDVI analysis}
-    It is time to see what has changed over the years in terms of vegetation health and density, we are going to calculate the DVI (Difference Vegetation Index) and then the NDVI (Normalized Difference Vegetation Index).
+    It is time to see what has changed over the years in terms of vegetation health and density; we are going to calculate the DVI (Difference Vegetation Index) and then the NDVI (Normalized Difference Vegetation Index).
 
     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{dvindvi.R}
 \end{frame}
@@ -251,7 +251,6 @@ Histograms for colorblind people
 
     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{histocodecb.R}
  \vspace{-0.3cm}
- 
  \begin{figure}
      \centering
      \includegraphics[width=0.8\linewidth]{istocbndvi.PNG}
@@ -268,5 +267,30 @@ Histograms for colorblind people
     \end{enumerate}
 
  \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{Pca17.R}
+\end{frame}
+
+\begin{frame}{}
+We perform the same analysis for the year 2024.
+
+\lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{Pca24.R}
+    
+\end{frame}
+
+\begin{frame}{Results}
+   We can see the results of the standard deviation analysis in a multiframe.\\ Some appreciable differences can be observed.
+
+     \lstinputlisting[basicstyle=\ttfamily\tiny,language=R, commentstyle=\color{darkgray}, stringstyle=\color{RoyalBlue}, backgroundcolor=\color{white}, numberstyle=\tiny\color{Blue}, showspaces=false, keywordstyle=\color{RoyalBlue}, breaklines=true, showstringspaces=false]{pcsd.R}
+
+     \begin{figure}
+         \centering
+         \includegraphics[width=1\linewidth]{pcsd.PNG}
+         \label{fig:enter-label}
+     \end{figure}
+\end{frame}
+\section{Conclusion}
+\begin{frame}{Conclusion}
+  We emphasize the importance of the Great Green Wall for Africa, as what we can observe from our analyses is a slight increase in vegetation density, visible through the histograms, NDVI graphs, and PCA analysis. The latter has shown how the increase in illuminated areas reflects high variation.
+
+  Thanks for the attention!
 \end{frame}
 \end{document}
