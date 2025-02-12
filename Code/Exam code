@@ -275,5 +275,5 @@ pcsd24 <- focal(pc24c, matrix(1/9,3,3),fun=sd)
 # Now we can see the results in a multiframe
 # There are some appreciable differences
 par(mfrow=c(1,2))
-plot(pcsd17, col=viridis(100), main=")
-plot(pcsd24, col=viridis(100))
+plot(pcsd17, col=viridis(100), main="Spatial variation 2017")
+plot(pcsd24, col=viridis(100), main="Spatial variation 2024")
