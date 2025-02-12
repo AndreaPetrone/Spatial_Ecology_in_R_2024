@@ -169,9 +169,9 @@ dvi2017<-bm17[[4]]-bm17[[1]]
 dvi2024<-bm24[[4]]-bm24[[1]]
 par(mfrow=c(2,2))
 plot(dvi2017,col=cl1, main="DVI 2017")
-plot(dvi2017,col=viridis(100), main="DVI 2017")
+plot(dvi2017,col=viridis(100), main="DVI 2017 colorblind")
 plot(dvi2024,col=cl1, main="DVI 2024")
-plot(dvi2024,col=viridis(100), main="DVI 2024")
+plot(dvi2024,col=viridis(100), main="DVI 2024 colorblind")
 
 dev.off()
 
